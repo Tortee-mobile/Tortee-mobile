@@ -4,10 +4,12 @@ import { Text, View } from "react-native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View className="flex-1 items-center justify-center ">
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
-      <Link href="/home">Home</Link>
+      <Link href="/home" className="text-blue-500">
+        Home
+      </Link>
     </View>
   );
 }
