@@ -1,8 +1,15 @@
-import { Text, View } from "react-native";
-import { Slot } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
-  return <Slot />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+    </Stack>
+  );
 };
 
 export default RootLayout;
