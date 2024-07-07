@@ -47,7 +47,6 @@ const Welcome = () => {
           />
         </View>
       </ScrollView>
-
       <StatusBar style="light" />
     </SafeAreaView>
   );
