@@ -2,40 +2,36 @@ import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
-
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-//import { useGlobalContext } from "../../context/GlobalProvider";
+import { useAuth } from "../../context/AuthContext";
 
 const SignIn = () => {
-  //const { setUser, setIsLogged } = useGlobalContext();
+  const { login } = useAuth();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  // const submit = async () => {
-  //   if (form.email === "" || form.password === "") {
-  //     Alert.alert("Error", "Please fill in all fields");
-  //   }
+  const submit = async () => {
+    if (form.email === "" || form.password === "") {
+      Alert.alert("Error", "Please fill in all fields");
+    }
 
-  //   setSubmitting(true);
+    setSubmitting(true);
 
-  //   try {
-  //     //await signIn(form.email, form.password);
-  //     // const result = await getCurrentUser();
-  //     // setUser(result);
-  //     // setIsLogged(true);
+    try {
+      await login(form.email, form.password);
 
-  //     Alert.alert("Success", "User signed in successfully");
-  //     //router.replace("/home");
-  //   } catch (error) {
-  //     Alert.alert("Error", error.message);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
+      Alert.alert("Success", "User signed in successfully");
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -52,7 +48,7 @@ const SignIn = () => {
             className="w-[115px] h-[34px]"
           />
 
-          <Text className="text-2xl font-semibold text-white mt-10 ">
+          <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
             Log in to Tortee
           </Text>
 
@@ -73,8 +69,7 @@ const SignIn = () => {
 
           <CustomButton
             title="Sign In"
-            // handlePress={submit}
-            handlePress={() => {}}
+            handlePress={submit}
             containerStyles="mt-7"
             isLoading={isSubmitting}
           />
@@ -83,7 +78,10 @@ const SignIn = () => {
             <Text className="text-lg text-gray-100 font-pregular">
               Don't have an account?
             </Text>
-            <Link href="/sign-up" className="text-lg  text-secondary">
+            <Link
+              href="/sign-up"
+              className="text-lg font-psemibold text-secondary"
+            >
               Signup
             </Link>
           </View>

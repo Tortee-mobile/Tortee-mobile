@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import { Icon } from "react-native-vector-icons/Icon";
 
 const FormField = ({
   title,
@@ -29,16 +28,16 @@ const FormField = ({
 
         {title === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            {/* <Image
-              source={!showPassword ? icons.eye : icons.eyeHide}
+            <Image
+              source={!showPassword ? "icons.eye" : "s"}
               className="w-6 h-6"
               resizeMode="contain"
-            /> */}
-            <Icon
+            />
+            {/* <Icon
               name={!showPassword ? icons.eye : icons.eyeHide}
               className="w-6 h-6"
               resizeMode="contain"
-            ></Icon>
+            ></Icon> */}
           </TouchableOpacity>
         )}
       </View>

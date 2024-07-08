@@ -9,11 +9,12 @@ export const signIn = async (email, password) => {
   return response.data;
 };
 
-export const signUp = async (email, password, username) => {
+export const signUp = async (firstName, lastName, email, password) => {
   const response = await apiClient.post(apiConfig.endpoints.signUp, {
+    firstName,
+    lastName,
     email,
     password,
-    username,
   });
   return response.data;
 };
