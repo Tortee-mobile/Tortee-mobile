@@ -4,11 +4,10 @@ import { View, Text, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomButton, Loader } from "../components";
 import { images } from "../constants";
-
-//import { useGlobalContext } from "../context/GlobalProvider";
+// import { useAuth } from "../context/AuthContext";
 
 const Welcome = () => {
-  //const { loading, isLogged } = useGlobalContext();
+  // const { loading, isLogged } = useAuth();
 
   // if (!loading && isLogged) return <Redirect href="/home" />;
 

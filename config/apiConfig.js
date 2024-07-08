@@ -1,9 +1,9 @@
 export const apiConfig = {
   baseUrl: "https://totevn.azurewebsites.net/api",
   endpoints: {
-    signIn: "/auth/signin",
-    signUp: "/auth/signup",
-    getCurrentUser: "/user/current",
+    signIn: "/auth/login",
+    signUp: "/auth/register",
+    getCurrentUser: "/account/my-profile",
     // Add other endpoints as needed
   },
 };

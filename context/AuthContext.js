@@ -1,10 +1,13 @@
 // src/context/AuthContext.js
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { getCurrentUser } from "../api/userService";
 import { signIn, signOut } from "../api/authService";
+import { Alert } from "react-native";
 
 const AuthContext = createContext();
-
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,7 +15,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const currentUser = await getCurrentUser();
+        //const currentUser = await getCurrentUser();
+        const currentUser = null;
         setUser(currentUser);
       } catch (error) {
         console.error(error);
