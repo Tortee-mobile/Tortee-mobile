@@ -4,10 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-// import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const SignIn = () => {
-  // const { login } = useAuth();
+  const { login } = useAuth();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -22,7 +22,7 @@ const SignIn = () => {
     setSubmitting(true);
 
     try {
-      // await login(form.email, form.password);
+      await login(form.email, form.password);
 
       Alert.alert("Success", "User signed in successfully");
       router.replace("/home");

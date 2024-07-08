@@ -2,12 +2,12 @@ import { Redirect, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import { Loader } from "../../components";
-// import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const AuthLayout = () => {
-  // const { loading, isLogged } = useAuth();
+  const { loading, user } = useAuth();
 
-  // if (!loading && isLogged) return <Redirect href="/home" />;
+  if (!loading && user) return <Redirect href="/home" />;
 
   return (
     <>
@@ -26,7 +26,7 @@ const AuthLayout = () => {
         />
       </Stack>
 
-      {/* <Loader isLoading={loading} /> */}
+      <Loader isLoading={loading} />
       <StatusBar style="light" />
     </>
   );
