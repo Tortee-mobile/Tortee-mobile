@@ -11,3 +11,16 @@ export const getAllChatBox = async () => {
     throw error;
   }
 };
+
+export const getChatMessages = async (chatPartnerId) => {
+  try {
+    const response = await apiClient.get(
+      `${apiConfig.endpoints.getChatMessages}?ChatPartnerId=${chatPartnerId}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving chat messages:", error);
+    throw error;
+  }
+};
