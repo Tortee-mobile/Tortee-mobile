@@ -3,7 +3,6 @@ import apiClient from "./apiClient";
 
 export const getAllChatBox = async () => {
   try {
-    console.log(apiConfig.getAllChatBox);
     const response = await apiClient.get(apiConfig.endpoints.getAllChatBox);
 
     return response.data;
