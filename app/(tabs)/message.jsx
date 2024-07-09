@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { images } from "../../constants";
 import { Loader } from "../../components";
+import { router } from "expo-router";
 import {
   View,
   Text,
@@ -32,7 +33,10 @@ const Message = () => {
   const renderChatbox = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("chatbox", { chatPartnerId: item.chatPartnerId })
+        router.push({
+          pathname: "chat/chatbox",
+          params: { chatPartnerId: item.chatPartnerId },
+        })
       }
     >
       <View className="flex-row items-center p-4 bg-white rounded-lg shadow-lg mb-3">
