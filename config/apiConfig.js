@@ -4,6 +4,7 @@ export const apiConfig = {
     signIn: "/auth/login",
     signUp: "/auth/register",
     getCurrentUser: "/account/my-profile",
+    getAllChatBox: "/Messages/my-chats",
     // Add other endpoints as needed
   },
 };
