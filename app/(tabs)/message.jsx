@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { images } from "../../constants";
+import { Loader } from "../../components";
 import {
   View,
   Text,
@@ -17,6 +18,8 @@ const Message = () => {
   const [searchText, setSearchText] = useState("");
   const {
     data: { data: chatboxes },
+    loading,
+    refetch,
   } = useApi(getAllChatBox);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -57,6 +60,7 @@ const Message = () => {
       </View>
     </TouchableOpacity>
   );
+  if (loading) return <Loader isLoading={loading} />;
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <View className="p-4">
