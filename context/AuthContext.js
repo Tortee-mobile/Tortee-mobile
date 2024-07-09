@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { getCurrentUser } from "../api/userService";
 import { signIn, signOut } from "../api/authService";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext();
 export const useAuth = () => {
@@ -29,14 +30,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    await signIn(email, password);
+    const response = await signIn(email, password);
+
+    await AsyncStorage.setItem("token", response.data.token);
     const currentUser = await getCurrentUser();
     setUser(currentUser);
   };
 
   const logout = async () => {
-    await signOut();
+    //await signOut();
     setUser(null);
+    await AsyncStorage.removeItem("token");
   };
 
   return (

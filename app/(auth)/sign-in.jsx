@@ -24,10 +24,10 @@ const SignIn = () => {
     try {
       await login(form.email, form.password);
 
-      Alert.alert("Success", "User signed in successfully");
+      //Alert.alert("Success", "User signed in successfully");
       router.replace("/home");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error);
     } finally {
       setSubmitting(false);
     }
