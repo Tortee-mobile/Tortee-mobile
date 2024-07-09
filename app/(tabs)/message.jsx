@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { images } from "../../constants";
 import {
   View,
   Text,
@@ -6,82 +7,76 @@ import {
   SafeAreaView,
   FlatList,
   TextInput,
+  RefreshControl,
+  TouchableOpacity,
 } from "react-native";
+import useApi from "../../hooks/useApi";
+import { getAllChatBox } from "../../api/messageService";
 
 const Message = () => {
   const [searchText, setSearchText] = useState("");
+  const {
+    data: { data: chatboxes },
+  } = useApi(getAllChatBox);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Dummy data for chatboxes
-  const chatboxes = [
-    {
-      id: 1,
-      avatar: require("../../assets/images/logo.png"),
-      name: "John Doe",
-      latestMessage: "Hello, how are you?",
-      unreadMessages: 2,
-    },
-    {
-      id: 2,
-      avatar: require("../../assets/images/logo.png"),
-      name: "Jane Smith",
-      latestMessage: "Hey, what's up?",
-      unreadMessages: 0,
-    },
-    // Add more chatboxes as needed
-  ];
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const renderChatbox = ({ item }) => (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-      }}
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("chatbox", { chatPartnerId: item.chatPartnerId })
+      }
     >
-      <Image
-        source={item.avatar}
-        style={{ width: 50, height: 50, borderRadius: 25 }}
-      />
-      <View style={{ marginLeft: 10 }}>
-        <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
-        <Text>{item.latestMessage}</Text>
-      </View>
-      {item.unreadMessages > 0 && (
-        <View
-          style={{
-            backgroundColor: "red",
-            borderRadius: 10,
-            paddingHorizontal: 5,
-            marginLeft: "auto",
-          }}
-        >
-          <Text style={{ color: "white" }}>{item.unreadMessages}</Text>
+      <View className="flex-row items-center p-4 bg-white rounded-lg shadow-lg mb-3">
+        <Image
+          source={
+            item.chatPartnerPhoto
+              ? { uri: item.chatPartnerPhoto }
+              : images.avatar
+          }
+          className="w-14 h-14 rounded-full"
+        />
+        <View className="ml-4 flex-1">
+          <Text className="font-bold text-lg text-gray-900">
+            {item.chatPartnerName}
+          </Text>
+          <Text className="text-gray-600">{item.messages[0].content}</Text>
         </View>
-      )}
-    </View>
+        {item.unreadMessages > 0 && (
+          <View className="bg-red-500 rounded-full px-3 py-1 ml-auto">
+            <Text className="text-white text-sm font-semibold">
+              {item.unreadMessages}
+            </Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
-
   return (
-    <SafeAreaView className="mx-4 my-12">
-      <View style={{ padding: 10 }}>
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <View className="p-4">
+        <Text className="text-2xl font-bold text-gray-900 mb-4">Messages</Text>
         <TextInput
-          style={{
-            height: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            paddingHorizontal: 10,
-            marginBottom: 10,
-          }}
+          className="h-12 border border-gray-300 rounded-lg px-4 mb-6 bg-white shadow-sm"
           placeholder="Search"
           value={searchText}
           onChangeText={setSearchText}
         />
+        <FlatList
+          data={chatboxes}
+          renderItem={renderChatbox}
+          keyExtractor={(item) => item.chatPartnerId.toString()}
+          className="bg-transparent"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </View>
-      <FlatList
-        data={chatboxes}
-        renderItem={renderChatbox}
-        keyExtractor={(item) => item.id.toString()}
-      />
     </SafeAreaView>
   );
 };
