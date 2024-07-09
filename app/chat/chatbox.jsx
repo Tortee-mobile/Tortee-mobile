@@ -12,7 +12,7 @@ import { images } from "../../constants";
 import { useLocalSearchParams } from "expo-router";
 import useApi from "../../hooks/useApi";
 import { getChatMessages } from "../../api/messageService";
-import dayjs from "dayjs"; // Import dayjs for formatting date
+import dayjs from "dayjs";
 
 const ChatBox = () => {
   const { chatPartnerId } = useLocalSearchParams();
@@ -20,12 +20,13 @@ const ChatBox = () => {
   const [partner, setPartner] = useState({});
   const {
     data: { data: messages },
+    loading,
   } = useApi(() => getChatMessages(chatPartnerId));
   const flatListRef = useRef(null);
 
   useEffect(() => {
     if (messages && messages.length > 0) {
-      flatListRef.current.scrollToEnd({ animated: true });
+      flatListRef.current.scrollToEnd({ animated: false });
       setPartner({
         senderName: messages[0].senderName,
         avatar: messages[0].senderPhotoUrl,
