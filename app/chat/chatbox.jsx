@@ -12,27 +12,44 @@ import { images } from "../../constants";
 import { useLocalSearchParams } from "expo-router";
 import useApi from "../../hooks/useApi";
 import { getChatMessages } from "../../api/messageService";
+import { connectToMessageHub, sendMessage } from "../../api/signalRService";
 import dayjs from "dayjs";
 
 const ChatBox = () => {
   const { chatPartnerId } = useLocalSearchParams();
   const [newMessage, setNewMessage] = useState("");
   const [partner, setPartner] = useState({});
-  const {
-    data: { data: messages },
-    loading,
-  } = useApi(() => getChatMessages(chatPartnerId));
+  const [messages, setMessages] = useState([]);
   const flatListRef = useRef(null);
 
+  const {
+    data: { data: initialMessages },
+    loading,
+  } = useApi(() => getChatMessages(chatPartnerId));
+
   useEffect(() => {
-    if (messages && messages.length > 0) {
+    if (initialMessages && initialMessages.length > 0) {
+      setMessages(initialMessages);
       flatListRef.current.scrollToEnd({ animated: false });
       setPartner({
-        senderName: messages[0].senderName,
-        avatar: messages[0].senderPhotoUrl,
+        senderName: initialMessages[0].senderName,
+        avatar: initialMessages[0].senderPhotoUrl,
       });
     }
-  }, [messages]);
+  }, [initialMessages]);
+
+  useEffect(() => {
+    const initializeSignalR = async () => {
+      const connection = await connectToMessageHub((message) => {
+        if (message.chatPartnerId === chatPartnerId) {
+          setMessages((prevMessages) => [...prevMessages, message]);
+        }
+      });
+      return () => connection.stop();
+    };
+
+    initializeSignalR();
+  }, [chatPartnerId]);
 
   const renderMessage = ({ item }) => (
     <View
@@ -55,16 +72,19 @@ const ChatBox = () => {
     </View>
   );
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (newMessage.trim()) {
-      // Send the message to the API
-      // Update the local state
       const newMsg = {
-        id: Date.now(),
+        chatPartnerId,
         content: newMessage,
         sentTime: new Date().toISOString(),
         isSentByCurrentUser: true,
       };
+
+      // Send the message to the SignalR hub
+      await sendMessage(newMsg);
+
+      // Update the local state
       setMessages((prevMessages) => [...prevMessages, newMsg]);
       setNewMessage("");
     }
@@ -89,7 +109,7 @@ const ChatBox = () => {
         className="flex-1 px-4"
         contentContainerStyle={{ paddingBottom: 20 }}
         onContentSizeChange={() =>
-          flatListRef.current.scrollToEnd({ animated: true })
+          flatListRef.current.scrollToEnd({ animated: false })
         }
       />
       <View className="flex-row items-center px-4 py-4 bg-white">
