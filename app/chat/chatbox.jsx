@@ -41,7 +41,8 @@ const ChatBox = () => {
   useEffect(() => {
     const initializeSignalR = async () => {
       const connection = await connectToMessageHub((message) => {
-        if (message.chatPartnerId === chatPartnerId) {
+        console.log("test" + message.senderId + " " + chatPartnerId);
+        if (message.senderId === chatPartnerId) {
           setMessages((prevMessages) => [...prevMessages, message]);
         }
       });
@@ -77,15 +78,13 @@ const ChatBox = () => {
       const newMsg = {
         chatPartnerId,
         content: newMessage,
-        sentTime: new Date().toISOString(),
-        isSentByCurrentUser: true,
       };
 
       // Send the message to the SignalR hub
       await sendMessage(newMsg);
 
       // Update the local state
-      setMessages((prevMessages) => [...prevMessages, newMsg]);
+      // setMessages((prevMessages) => [...prevMessages, newMsg]);
       setNewMessage("");
     }
   };
