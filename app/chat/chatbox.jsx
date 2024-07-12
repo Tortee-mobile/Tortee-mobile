@@ -42,7 +42,10 @@ const ChatBox = () => {
     const initializeSignalR = async () => {
       const connection = await connectToMessageHub((message) => {
         console.log("test" + message.senderId + " " + chatPartnerId);
-        if (message.senderId === chatPartnerId) {
+        if (
+          message.isSentByCurrentUser ||
+          (!message.isSentByCurrentUser && message.senderId === chatPartnerId)
+        ) {
           setMessages((prevMessages) => [...prevMessages, message]);
         }
       });
