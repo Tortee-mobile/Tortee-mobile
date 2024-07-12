@@ -24,3 +24,15 @@ export const getChatMessages = async (chatPartnerId) => {
     throw error;
   }
 };
+
+export const readMessages = async (chatPartnerId) => {
+  try {
+    const response = await apiClient.put(
+      `${apiConfig.endpoints.readMessages}?chatPartnerId=${chatPartnerId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error reading messages:", error);
+    throw error;
+  }
+};
