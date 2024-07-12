@@ -1,5 +1,3 @@
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-
 export const apiConfig = {
   baseUrl: "https://totevn.azurewebsites.net/api",
   endpoints: {
@@ -8,6 +6,14 @@ export const apiConfig = {
     getCurrentUser: "/account/my-profile",
     getAllChatBox: "/Messages/my-chats",
     getChatMessages: "/Messages/messages",
+    sendMessage: "/Messages/send-message",
+    searchChat: "/Messages/search-chat",
+    getTotalUnreadNotification: "/Notifications/unread-notification",
+    readNotification: "/Notifications/read-notification",
     // Add other endpoints as needed
+  },
+  hubs: {
+    chatHub: "https://totevn.azurewebsites.net/chathub",
+    notificationHub: "https://totevn.azurewebsites.net/notificationhub",
   },
 };
