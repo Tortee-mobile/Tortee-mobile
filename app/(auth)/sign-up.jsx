@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
-
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
 import { signUp } from "../../api/authService";
@@ -34,8 +33,7 @@ const SignUp = () => {
         form.email,
         form.password
       );
-
-      //router.replace("email-cofirmation");
+      router.replace("email-cofirmation");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
