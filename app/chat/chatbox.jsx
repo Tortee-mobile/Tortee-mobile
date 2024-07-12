@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
+import { Loader } from "../../components";
 import { images } from "../../constants";
 import { useLocalSearchParams } from "expo-router";
 import useApi from "../../hooks/useApi";
@@ -30,7 +31,9 @@ const ChatBox = () => {
   useEffect(() => {
     if (initialMessages && initialMessages.length > 0) {
       setMessages(initialMessages);
-      flatListRef.current.scrollToEnd({ animated: false });
+      if (flatListRef.current) {
+        flatListRef.current.scrollToEnd({ animated: false });
+      }
       setPartner({
         senderName: initialMessages[0].senderName,
         avatar: initialMessages[0].senderPhotoUrl,
@@ -47,6 +50,9 @@ const ChatBox = () => {
           (!message.isSentByCurrentUser && message.senderId === chatPartnerId)
         ) {
           setMessages((prevMessages) => [...prevMessages, message]);
+          if (flatListRef.current) {
+            flatListRef.current.scrollToEnd({ animated: true });
+          }
         }
       });
       return () => connection.stop();
@@ -54,6 +60,8 @@ const ChatBox = () => {
 
     initializeSignalR();
   }, [chatPartnerId]);
+
+  if (loading) return <Loader isLoading={loading} />;
 
   const renderMessage = ({ item }) => (
     <View
@@ -86,8 +94,7 @@ const ChatBox = () => {
       // Send the message to the SignalR hub
       await sendMessage(newMsg);
 
-      // Update the local state
-      // setMessages((prevMessages) => [...prevMessages, newMsg]);
+      // Clear the input field
       setNewMessage("");
     }
   };
@@ -111,7 +118,8 @@ const ChatBox = () => {
         className="flex-1 px-4"
         contentContainerStyle={{ paddingBottom: 20 }}
         onContentSizeChange={() =>
-          flatListRef.current.scrollToEnd({ animated: false })
+          flatListRef.current &&
+          flatListRef.current.scrollToEnd({ animated: true })
         }
       />
       <View className="flex-row items-center px-4 py-4 bg-white">
