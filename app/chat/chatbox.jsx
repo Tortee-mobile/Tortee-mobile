@@ -12,7 +12,7 @@ import { Loader } from "../../components";
 import { images } from "../../constants";
 import { useLocalSearchParams } from "expo-router";
 import useApi from "../../hooks/useApi";
-import { getChatMessages } from "../../api/messageService";
+import { getChatMessages, readMessages } from "../../api/messageService";
 import { connectToMessageHub, sendMessage } from "../../api/signalRService";
 import dayjs from "dayjs";
 
@@ -29,22 +29,26 @@ const ChatBox = () => {
   } = useApi(() => getChatMessages(chatPartnerId));
 
   useEffect(() => {
-    if (initialMessages && initialMessages.length > 0) {
-      setMessages(initialMessages);
-      if (flatListRef.current) {
-        flatListRef.current.scrollToEnd({ animated: false });
+    const initializeMessages = async () => {
+      if (initialMessages && initialMessages.length > 0) {
+        setMessages(initialMessages);
+        if (flatListRef.current) {
+          flatListRef.current.scrollToEnd({ animated: false });
+        }
+        setPartner({
+          senderName: initialMessages[0].senderName,
+          avatar: initialMessages[0].senderPhotoUrl,
+        });
+        await readMessages(chatPartnerId);
       }
-      setPartner({
-        senderName: initialMessages[0].senderName,
-        avatar: initialMessages[0].senderPhotoUrl,
-      });
-    }
-  }, [initialMessages]);
+    };
+
+    initializeMessages();
+  }, [initialMessages, chatPartnerId]);
 
   useEffect(() => {
     const initializeSignalR = async () => {
       const connection = await connectToMessageHub((message) => {
-        console.log("test" + message.senderId + " " + chatPartnerId);
         if (
           message.isSentByCurrentUser ||
           (!message.isSentByCurrentUser && message.senderId === chatPartnerId)
@@ -60,8 +64,6 @@ const ChatBox = () => {
 
     initializeSignalR();
   }, [chatPartnerId]);
-
-  if (loading) return <Loader isLoading={loading} />;
 
   const renderMessage = ({ item }) => (
     <View
@@ -90,14 +92,14 @@ const ChatBox = () => {
         chatPartnerId,
         content: newMessage,
       };
-
       // Send the message to the SignalR hub
       await sendMessage(newMsg);
-
       // Clear the input field
       setNewMessage("");
     }
   };
+
+  if (loading) return <Loader isLoading={loading} />;
 
   return (
     <SafeAreaView className="flex-1 h-full bg-white">

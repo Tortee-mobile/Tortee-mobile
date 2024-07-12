@@ -10,6 +10,7 @@ export const apiConfig = {
     searchChat: "/Messages/search-chat",
     getTotalUnreadNotification: "/Notifications/unread-notification",
     readNotification: "/Notifications/read-notification",
+    readMessages: "/Messages/read-messages",
     // Add other endpoints as needed
   },
   hubs: {

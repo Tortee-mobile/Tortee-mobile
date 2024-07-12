@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { images } from "../../constants";
 import { Loader } from "../../components";
 import { router } from "expo-router";
@@ -14,14 +14,12 @@ import {
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import { getAllChatBox } from "../../api/messageService";
+import { connectToMessageHub } from "../../api/signalRService";
 
 const Message = () => {
   const [searchText, setSearchText] = useState("");
-  const {
-    data: { data: chatboxes },
-    loading,
-    refetch,
-  } = useApi(getAllChatBox);
+  const [chatboxes, setChatboxes] = useState([]);
+  const { data, loading, refetch } = useApi(getAllChatBox);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -30,15 +28,39 @@ const Message = () => {
     setRefreshing(false);
   };
 
+  useEffect(() => {
+    if (data && data.data) {
+      setChatboxes(data.data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const initializeSignalR = async () => {
+      const connection = await connectToMessageHub(async (message) => {
+        await refetch();
+      });
+      return () => connection.stop();
+    };
+
+    initializeSignalR();
+  }, []);
+
+  const handleChatboxPress = (chatPartnerId) => {
+    setChatboxes((prevChatboxes) =>
+      prevChatboxes.map((chatbox) =>
+        chatbox.chatPartnerId === chatPartnerId
+          ? { ...chatbox, unreadCount: 0 }
+          : chatbox
+      )
+    );
+    router.push({
+      pathname: "chat/chatbox",
+      params: { chatPartnerId },
+    });
+  };
+
   const renderChatbox = ({ item }) => (
-    <TouchableOpacity
-      onPress={() =>
-        router.push({
-          pathname: "chat/chatbox",
-          params: { chatPartnerId: item.chatPartnerId },
-        })
-      }
-    >
+    <TouchableOpacity onPress={() => handleChatboxPress(item.chatPartnerId)}>
       <View className="flex-row items-center p-4 bg-white rounded-lg shadow-lg mb-3">
         <Image
           source={
@@ -54,17 +76,19 @@ const Message = () => {
           </Text>
           <Text className="text-gray-600">{item.messages[0].content}</Text>
         </View>
-        {item.unreadMessages > 0 && (
+        {item.unreadCount > 0 && (
           <View className="bg-red-500 rounded-full px-3 py-1 ml-auto">
             <Text className="text-white text-sm font-semibold">
-              {item.unreadMessages}
+              {item.unreadCount}
             </Text>
           </View>
         )}
       </View>
     </TouchableOpacity>
   );
+
   if (loading) return <Loader isLoading={loading} />;
+
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
       <View className="p-4">
