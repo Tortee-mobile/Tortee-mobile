@@ -1,8 +1,6 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { getCurrentUser } from "../api/userService";
 import { signIn, signOut } from "../api/authService";
-import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext();
@@ -16,9 +14,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        //const currentUser = await getCurrentUser();
-        const currentUser = null;
-        setUser(currentUser);
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+          const currentUser = await getCurrentUser();
+          setUser(currentUser);
+        }
+        console.log("user", user);
       } catch (error) {
         console.error(error);
       } finally {

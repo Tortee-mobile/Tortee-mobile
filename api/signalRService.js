@@ -15,14 +15,12 @@ const connectToMessageHub = async (onReceiveMessage) => {
     .build();
 
   connection.on("ReceiveMessage", (message) => {
-    console.log("New message received:", message);
     onReceiveMessage(message);
   });
 
   const startConnection = async () => {
     try {
       await connection.start();
-      console.log("Connected to SignalR MessageHub");
     } catch (error) {
       console.error("SignalR Connection Error: ", error);
       setTimeout(startConnection, 5000); // Retry connection after 5 seconds
