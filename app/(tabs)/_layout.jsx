@@ -2,7 +2,7 @@ import { View } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
 import Icon from "react-native-vector-icons/Ionicons";
-//import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -17,9 +17,9 @@ const TabIcon = ({ icon, color, name, focused }) => {
 };
 
 const TabsLayout = () => {
-  // const { loading, user } = useAuth();
+  const { loading, user } = useAuth();
 
-  // if (!loading && !user) return <Redirect href="/sign-in" />;
+  if (!loading && !user) return <Redirect href="/sign-in" />;
   return (
     <Tabs
       className="bg-primary"
