@@ -11,6 +11,10 @@ export const apiConfig = {
     getTotalUnreadNotification: "/Notifications/unread-notification",
     readNotification: "/Notifications/read-notification",
     readMessages: "/Messages/read-messages",
+    getMenteeApplicationsSent: "/mentee/applications",
+    getMenteeApplicationsReceived: "/mentor/applications",
+    getApplicationDetail: "/application",
+    updateApplicationStatus: "/mentor/update-application",
     // Add other endpoints as needed
   },
   hubs: {
