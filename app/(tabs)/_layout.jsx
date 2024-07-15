@@ -1,11 +1,12 @@
 import { View } from "react-native";
 import React from "react";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import Icon from "react-native-vector-icons/Ionicons";
+import { useAuth } from "../../context/AuthContext";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
-    <View className="items-center justify-center gap-2">
+    <View className="items-center justify-center gap-1">
       <Icon
         name={icon}
         size={24}
@@ -16,12 +17,21 @@ const TabIcon = ({ icon, color, name, focused }) => {
 };
 
 const TabsLayout = () => {
+  const { loading, user } = useAuth();
+
+  if (!loading && !user) return <Redirect href="/sign-in" />;
   return (
     <Tabs
+      className="bg-primary"
       screenOptions={{
         tabBarLabelStyle: { fontSize: 9 },
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#6adbd7",
+        tabBarStyle: {
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 60,
+        },
       }}
     >
       <Tabs.Screen
@@ -29,13 +39,8 @@ const TabsLayout = () => {
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: ({ focused, color }) => (
-            <TabIcon
-              icon="home-outline"
-              color={color}
-              name="Home"
-              focused={focused}
-            />
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="home-outline" focused={focused} />
           ),
         }}
       />

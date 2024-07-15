@@ -4,17 +4,16 @@ import { View, Text, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomButton, Loader } from "../components";
 import { images } from "../constants";
-
-//import { useGlobalContext } from "../context/GlobalProvider";
+import { useAuth } from "../context/AuthContext";
 
 const Welcome = () => {
-  //const { loading, isLogged } = useGlobalContext();
+  const { loading, user } = useAuth();
 
-  // if (!loading && isLogged) return <Redirect href="/home" />;
+  if (!loading && user) return <Redirect href="/home" />;
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      {/* <Loader isLoading={loading} /> */}
+      <Loader isLoading={loading} />
 
       <ScrollView
         contentContainerStyle={{
@@ -47,7 +46,6 @@ const Welcome = () => {
           />
         </View>
       </ScrollView>
-
       <StatusBar style="light" />
     </SafeAreaView>
   );

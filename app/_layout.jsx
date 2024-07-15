@@ -1,8 +1,24 @@
-import { Text, View } from "react-native";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
+import { AuthProvider } from "../context/AuthContext";
+import { NativeWindStyleSheet } from "nativewind";
+import { ChatProvider } from "../context/ChatContext";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
 
 const RootLayout = () => {
-  return <Slot />;
+  return (
+    <AuthProvider>
+      <ChatProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        </Stack>
+      </ChatProvider>
+    </AuthProvider>
+  );
 };
 
 export default RootLayout;
