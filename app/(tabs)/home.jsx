@@ -27,6 +27,7 @@ import {
 } from "react-native-paper";
 import { Image } from "react-native";
 import { router, useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -84,7 +85,7 @@ const Home = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Home Tỏ Tê</Text>
       </View>
@@ -137,7 +138,7 @@ const Home = () => {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
