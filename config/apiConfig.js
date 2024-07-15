@@ -11,6 +11,9 @@ export const apiConfig = {
     getTotalUnreadNotification: "/Notifications/unread-notification",
     readNotification: "/Notifications/read-notification",
     readMessages: "/Messages/read-messages",
+    listMentor: "/Mentor/browse-mentor",
+    mentorId: "/Account",
+    mentorPlan: "/MenteePlan",
     // Add other endpoints as needed
   },
   hubs: {
