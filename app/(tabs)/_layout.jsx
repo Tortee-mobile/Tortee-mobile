@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import React from "react";
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useAuth } from "../../context/AuthContext";
 
@@ -39,13 +39,8 @@ const TabsLayout = () => {
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: ({ focused, color }) => (
-            <TabIcon
-              icon="home-outline"
-              color={color}
-              name="Home"
-              focused={focused}
-            />
+          tabBarIcon: ({ focused }) => (
+            <TabIcon icon="home-outline" focused={focused} />
           ),
         }}
       />

@@ -28,6 +28,9 @@ const ChatBox = () => {
     loading,
   } = useApi(() => getChatMessages(chatPartnerId));
 
+  console.log(chatPartnerId, "chatPartnerId");
+  console.log(initialMessages, "initialMessages");
+
   useEffect(() => {
     const initializeMessages = async () => {
       if (initialMessages && initialMessages.length > 0) {
