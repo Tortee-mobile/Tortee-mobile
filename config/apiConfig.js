@@ -21,6 +21,7 @@ export const apiConfig = {
     feedbackMentor: "/Feedback",
     menteeAplly: "mentee/apply",
     applicationQuestions: "/ApplicationQuestion",
+    payment: "/Payment/create-payment-url",
 
     // Add other endpoints as needed
     getSkill:"/Skill",

@@ -16,6 +16,7 @@ import {
 } from "../../api/mentorService";
 import { Ionicons } from "@expo/vector-icons";
 import { showErrorMessage, showSuccessMessage } from "../../components/Toast";
+import { router } from "expo-router";
 
 const Booking = () => {
   const navigation = useNavigation();
@@ -62,7 +63,9 @@ const Booking = () => {
     try {
       await applyForMentee(menteePlanId, menteeApplicationAnswers);
       showSuccessMessage("Success, Application submitted successfully!");
-      navigation.goBack();
+      router.push({
+        pathname: "application",
+      });
     } catch (error) {
       showErrorMessage(
         "Error, Failed to submit application. Please try again."
