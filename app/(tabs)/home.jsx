@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: "white",
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: "700",
   },
   welcomeContainer: {
     flexDirection: "row",
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#274a79",
     textAlign: "center",
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: "fit-content",
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: "600",
     backgroundColor: "#6adbd7",
     // textDecorationLine: "underline",
   },
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 18,
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#274a79",
   },
   flatListContainer: {
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   mentorName: {
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#274a79",
     textAlign: "center",
   },
