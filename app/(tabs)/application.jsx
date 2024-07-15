@@ -91,9 +91,9 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
           className="w-16 h-16 rounded-full mr-4"
         />
         <View className="flex-1">
-          <Text className="text-lg font-bold text-primary">{name}</Text>
+          <Text className="text-lg font-bold text-gray-700">{name}</Text>
 
-          <Text className="text-xs text-primary">
+          <Text className="text-xs text-gray-400">
             Applied Date: {dayjs(item.appliedDate).format("YYYY-MM-DD")}
           </Text>
           <Text className="text-sm text-gray-700 mt-2">{email}</Text>
@@ -107,7 +107,6 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
           )}
           {filter === "sent" && (
             <>
-              {" "}
               <Text className="text-sm font-bold text-gray-700 mt-2">
                 Plan of mentor:{" "}
               </Text>
