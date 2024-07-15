@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  RefreshControl,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -26,6 +27,13 @@ const Application = () => {
   const [sentApplications, setSentApplications] = useState([]);
   const [receivedApplications, setReceivedApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchApplications();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -136,6 +144,9 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
         renderItem={renderApplicationItem}
         keyExtractor={(item) => item.id.toString()}
         className="flex-1"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     );
   };
