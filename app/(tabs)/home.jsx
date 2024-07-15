@@ -50,7 +50,7 @@ const Home = () => {
             source={{
               uri: item.profilePic
                 ? item.profilePic
-                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJRS-4chjWMRAmrtz7ivK53K_uygrgjzw9Uw&s",
+                : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg",
             }}
             style={styles.image}
           />
