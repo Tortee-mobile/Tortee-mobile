@@ -1,3 +1,4 @@
+import { showErrorMessage, showSuccessMessage } from "../components/Toast";
 import { apiConfig } from "../config/apiConfig";
 import apiClient from "./apiClient";
 
@@ -49,6 +50,65 @@ export const getMentorshipPlan = async (
     return response.data;
   } catch (error) {
     console.error("Error retrieving mentor list:", error);
+    throw error;
+  }
+};
+
+export const getMentorReview = async (
+  mentorId,
+  pageIndex = 1,
+  pageSize = 10
+) => {
+  try {
+    const response = await apiClient.get(
+      `${apiConfig.endpoints.feedbackMentor}/${mentorId}`,
+      {
+        params: {
+          PageIndex: pageIndex,
+          PageSize: pageSize,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving this mentor:", error);
+    throw error;
+  }
+};
+
+export const getApplicationQuestions = async () => {
+  try {
+    const response = await apiClient.get(
+      apiConfig.endpoints.applicationQuestions
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving application questions:", error);
+    throw error;
+  }
+};
+
+export const applyForMentee = async (
+  menteePlanId,
+  menteeApplicationAnswers
+) => {
+  try {
+    const applicationData = {
+      menteePlanId,
+      menteeApplicationAnswers, // Directly use the array of answers
+    };
+
+    const response = await apiClient.post(
+      apiConfig.endpoints.menteeAplly,
+      applicationData
+    );
+
+    showSuccessMessage("Application submitted successfully!"); // Show success message
+    return response.data;
+  } catch (error) {
+    console.error("Error submitting application:", error);
+    showErrorMessage("Failed to submit application."); // Show error message
     throw error;
   }
 };
