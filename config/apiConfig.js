@@ -3,7 +3,7 @@ export const apiConfig = {
   endpoints: {
     signIn: "/auth/login",
     signUp: "/auth/register",
-    getCurrentUser: "/account/my-profile",
+    getCurrentUser: "/Account/my-profile",
     getAllChatBox: "/Messages/my-chats",
     getChatMessages: "/Messages/messages",
     sendMessage: "/Messages/send-message",
@@ -12,6 +12,8 @@ export const apiConfig = {
     readNotification: "/Notifications/read-notification",
     readMessages: "/Messages/read-messages",
     // Add other endpoints as needed
+    getSkill:"/Skill",
+    addSkill:"/Skill/update-my-skill"
   },
   hubs: {
     chatHub: "https://totevn.azurewebsites.net/chathub",
