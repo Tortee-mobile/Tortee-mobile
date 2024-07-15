@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Alert,
   Image,
   ScrollView,
+  Linking,
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import {
@@ -13,9 +14,12 @@ import {
   updateApplicationStatus,
 } from "../../api/applicationService";
 import { Loader } from "../../components";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
+import { showErrorMessage } from "../../components/Toast";
+import { createPaymentUrl } from "../../api/mentorService";
+import { ActivityIndicator } from "react-native-paper";
 
 const ApplicationDetail = () => {
   const { id } = useLocalSearchParams();
@@ -27,6 +31,8 @@ const ApplicationDetail = () => {
     loading,
   } = useApi(() => getApplicationDetail(id));
 
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
   const handleUpdateStatus = async (status) => {
     try {
       await updateApplicationStatus({ id, status });
@@ -34,6 +40,27 @@ const ApplicationDetail = () => {
       navigation.goBack();
     } catch (error) {
       Alert.alert("Error", error.message);
+    }
+  };
+
+  const handlePayment = async () => {
+    setPaymentLoading(true);
+    try {
+      const paymentData = {
+        orderInfo: application.id,
+        fullName: application.user.fullName,
+        orderType: "Bank Transfer",
+        description: "Booking mentorship",
+        amount: application.price,
+      };
+      const response = await createPaymentUrl(paymentData); // Call API to create payment URL
+      // debugger;
+      const paymentUrl = response.data; // Get payment URL from response
+      Linking.openURL(paymentUrl); // Open payment URL in browser
+    } catch (error) {
+      showErrorMessage("Failed to create payment URL. Please try again.");
+    } finally {
+      setPaymentLoading(false);
     }
   };
 
@@ -118,6 +145,19 @@ const ApplicationDetail = () => {
             <Text>{application.menteePlan.durationOfMeeting} mins each</Text>
           </Text>
         </View>
+        {application.status === "ACCEPTED" && (
+          <View>
+            <TouchableOpacity onPress={handlePayment} disabled={paymentLoading}>
+              {paymentLoading ? (
+                <ActivityIndicator color="#274a79" />
+              ) : (
+                <Text className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg">
+                  Payment Now
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
         {application.menteeApplicationAnswers &&
           application.menteeApplicationAnswers.length > 0 && (
             <View className="mt-4">

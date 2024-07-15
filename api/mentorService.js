@@ -112,3 +112,8 @@ export const applyForMentee = async (
     throw error;
   }
 };
+
+export const createPaymentUrl = async (data) => {
+  const response = await apiClient.post(apiConfig.endpoints.payment, data);
+  return response.data;
+};
