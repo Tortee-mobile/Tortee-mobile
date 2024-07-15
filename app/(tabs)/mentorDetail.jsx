@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   },
   fullName: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 700,
   },
   jobTitle: {
     fontSize: 16,
@@ -255,13 +255,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     width: "100%",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 700,
     marginBottom: 15,
   },
   sectionTitle1: {
     width: "100%",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 700,
     marginBottom: 15,
     textAlign: "center",
   },
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     marginVertical: 10,
   },
-  tooltipTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
+  tooltipTitle: { fontSize: 18, fontWeight: 700, marginBottom: 8 },
   fab: {
     position: "absolute",
     margin: 16,
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 700,
   },
   mentorshipPlanContainer: {
     backgroundColor: "#ffffff",
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 16,
     color: "#274a79",
-    fontWeight: "600",
+    fontWeight: 600,
     flex: 2,
   },
   valueText: {
@@ -375,11 +375,11 @@ const styles = StyleSheet.create({
   },
   inMentorship: {
     color: "#274a79",
-    fontWeight: "600",
+    fontWeight: 600,
   },
   notInMentorship: {
     color: "gray",
-    fontWeight: "600",
+    fontWeight: 600,
   },
 });
 
