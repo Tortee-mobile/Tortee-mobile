@@ -13,7 +13,6 @@ export const getApplicationDetail = async (id) => {
   const response = await apiClient.get(
     `${apiConfig.endpoints.getApplicationDetail}/${id}`
   );
-  console.log("getApplicationDetail", response.data);
   return response.data;
 };
 
