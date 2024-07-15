@@ -15,11 +15,11 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
+
         if (token) {
           const currentUser = await getCurrentUser();
           setUser(currentUser);
         }
-        console.log("user", user);
       } catch (error) {
         console.error(error);
       } finally {
@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     await AsyncStorage.setItem("token", response.data.token);
     const currentUser = await getCurrentUser();
+
     setUser(currentUser);
   };
 

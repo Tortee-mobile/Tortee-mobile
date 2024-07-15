@@ -14,6 +14,11 @@ export const apiConfig = {
     listMentor: "/Mentor/browse-mentor",
     mentorId: "/Account",
     mentorPlan: "/MenteePlan",
+    getMenteeApplicationsSent: "/mentee/applications",
+    getMenteeApplicationsReceived: "/mentor/applications",
+    getApplicationDetail: "/application",
+    updateApplicationStatus: "/mentor/update-application",
+
     // Add other endpoints as needed
   },
   hubs: {
