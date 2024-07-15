@@ -18,6 +18,9 @@ export const apiConfig = {
     getMenteeApplicationsReceived: "/mentor/applications",
     getApplicationDetail: "/application",
     updateApplicationStatus: "/mentor/update-application",
+    feedbackMentor: "/Feedback",
+    menteeAplly: "mentee/apply",
+    applicationQuestions: "/ApplicationQuestion",
 
     // Add other endpoints as needed
     getSkill:"/Skill",
