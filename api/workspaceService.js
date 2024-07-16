@@ -171,3 +171,8 @@ export const addFeedbackMentor = async (data) => {
   const response = await apiClient.post(apiConfig.endpoints.addFeedback, data);
   return response.data;
 };
+
+export const addGrade = async (data) => {
+  const response = await apiClient.put(apiConfig.endpoints.addGrade, data);
+  return response.data;
+};

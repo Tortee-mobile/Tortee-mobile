@@ -36,6 +36,7 @@ export const apiConfig = {
     mySentAss: "Workspace/mentor/assignments",
     getAllSubmitInAss: "Workspace/assignments",
     addFeedback: "Feedback/send-feedback",
+    addGrade: "Workspace/mentor/grade",
     // Add other endpoints as needed
     getSkill: "/Skill",
     addSkill: "/Skill/update-my-skill",
