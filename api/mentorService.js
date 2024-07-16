@@ -2,7 +2,7 @@ import { showErrorMessage, showSuccessMessage } from "../components/Toast";
 import { apiConfig } from "../config/apiConfig";
 import apiClient from "./apiClient";
 
-export const getAllMentorList = async (pageIndex = 1, pageSize = 10) => {
+export const getAllMentorList = async (pageIndex = 1, pageSize = 15) => {
   try {
     const response = await apiClient.get(apiConfig.endpoints.listMentor, {
       params: {

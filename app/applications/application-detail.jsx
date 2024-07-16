@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import {
   updateApplicationStatus,
 } from "../../api/applicationService";
 import { Loader } from "../../components";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
 import { showErrorMessage } from "../../components/Toast";
@@ -23,6 +23,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ApplicationDetail = () => {
+  const navigation = useNavigation();
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const {
@@ -43,6 +44,23 @@ const ApplicationDetail = () => {
       Alert.alert("Error", error.message);
     }
   };
+
+  useLayoutEffect(() => {
+    if (id) {
+      navigation.setOptions({
+        headerTitle: "Application Detail",
+        headerShown: true,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ padding: 10 }}
+          >
+            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+          </TouchableOpacity>
+        ),
+      });
+    }
+  }, [navigation, id]);
 
   const handlePayment = async () => {
     setPaymentLoading(true);
@@ -67,7 +85,7 @@ const ApplicationDetail = () => {
   if (loading) return <Loader isLoading={loading} />;
 
   return (
-    <SafeAreaView className="h-full">
+    <SafeAreaView className="flex-1">
       <ScrollView className="flex-1 bg-gray-100 ">
         <View className="bg-white p-8 pt-4 rounded-lg shadow-md mb-4 ">
           <View className="flex-row items-center mb-3">

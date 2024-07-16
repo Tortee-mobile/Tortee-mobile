@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   ScrollView,
+  TextInput,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import useApi from "../../../hooks/useApi";
@@ -22,7 +23,7 @@ import {
   showSuccessMessage,
 } from "../../../components/Toast";
 import FlashMessage from "react-native-flash-message";
-import { Modal, TextInput, Title } from "react-native-paper";
+import { Modal, Title } from "react-native-paper";
 import { useAuth } from "../../../context/AuthContext";
 
 const AssMenteeDetail = () => {
@@ -255,24 +256,75 @@ const AssMenteeDetail = () => {
         }}
       >
         <Title>Submit Grade</Title>
-        <TextInput
-          label="Comment"
-          value={commentOfMentor}
-          onChangeText={setCommentOfMentor}
-          mode="outlined"
-          style={{ marginBottom: 20 }}
-        />
-        <TextInput
-          label="Grade"
-          value={grade}
-          onChangeText={setGrade}
-          mode="outlined"
-          keyboardType="numeric"
-          style={{ marginBottom: 20 }}
-        />
 
-        <Button title="Submit" onPress={handleGradeSubmit} />
-        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+        <View className="w-full">
+          <Text className="text-[12px] font-semibold mb-2">Comment:</Text>
+          <TextInput
+            className="border border-gray-300 p-2 rounded-md  w-full"
+            label="Comment"
+            value={commentOfMentor}
+            onChangeText={setCommentOfMentor}
+            mode="outlined"
+            style={{ marginBottom: 20 }}
+            maxLength={70} // Set maximum length to 70
+          />
+          <Text className="text-gray-500 text-right">{`${commentOfMentor.length}/70`}</Text>{" "}
+          {/* Character count */}
+        </View>
+
+        <View className="w-full">
+          <Text className="text-[12px] font-semibold mb-2">Grade:</Text>
+          <TextInput
+            className="border border-gray-300 p-2 rounded-md  w-full"
+            label="Grade (0-10)"
+            value={grade}
+            onChangeText={(text) => {
+              // Allow only numbers
+              if (/^[0-9]*$/.test(text) || text === "") {
+                setGrade(text);
+              }
+            }}
+            mode="outlined"
+            keyboardType="numeric"
+            style={{ marginBottom: 20 }}
+            placeholder="Enter grade (0-10)"
+          />
+          {/* Validation message */}
+          {grade && (grade < 0 || grade > 10) && (
+            <Text className="text-red-500 mb-4">
+              Grade must be between 0 and 10.
+            </Text>
+          )}
+        </View>
+
+        <View className="flex-row justify-around w-full">
+          <TouchableOpacity
+            onPress={handleGradeSubmit}
+            className={`py-2 px-4 rounded-md mt-2 w-1/3 ${
+              grade && grade >= 0 && grade <= 10
+                ? "bg-[#6adbd7]"
+                : "bg-gray-300"
+            }`}
+            disabled={!(grade && grade >= 0 && grade <= 10)}
+          >
+            <Text
+              className={`font-bold text-center ${
+                grade && grade >= 0 && grade <= 10
+                  ? "text-[#274a79]"
+                  : "text-gray-400"
+              }`}
+            >
+              Submit
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setModalVisible(false)}
+            className="bg-red-800 py-2 px-4 rounded-md mt-2 w-1/3"
+          >
+            <Text className="text-white font-bold text-center">Hủy</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
     </View>
   );

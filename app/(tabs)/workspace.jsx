@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -19,10 +19,20 @@ import { useAuth } from "../../context/AuthContext";
 
 const Workspace = () => {
   const { user } = useAuth();
-  const isMentor = user?.userRoles?.map((ur) => ur.name).includes("Mentor");
+  // const isMentor = user?.userRoles?.some((ur) => ur.name === "Mentor");
+
   const [activeTab, setActiveTab] = useState("My Mentors");
 
-  // Định nghĩa các tab dựa trên vai trò
+  const [isMentor, setIsMentor] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const mentorStatus = user?.userRoles?.some((ur) => ur.name === "Mentor");
+      setIsMentor(mentorStatus);
+      setActiveTab(mentorStatus ? "My Mentees" : "My Mentors");
+    }
+  }, [user]);
+
   const tabs = isMentor
     ? [
         {

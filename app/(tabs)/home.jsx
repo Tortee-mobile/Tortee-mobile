@@ -19,6 +19,9 @@ import { Loader } from "../../components";
 const Home = () => {
   const navigation = useNavigation();
   const [mentors, setMentors] = useState([]);
+  const [visible, setVisible] = useState(6); // Số sản phẩm hiển thị ban đầu
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { user } = useAuth();
 
   const { data, loading, refetch } = useApi(getAllMentorList);
@@ -28,7 +31,17 @@ const Home = () => {
       setMentors(data.data.data);
     }
   }, [data]);
+
+  const onChangeSearch = (query) => setSearchQuery(query);
+
   if (loading) return <Loader isLoading={loading} />;
+
+  const handleLoadMore = () => {
+    if (mentors.length > visible) {
+      setVisible((prevVisible) => prevVisible + 6); // Tăng số lượng sản phẩm hiển thị khi nhấn nút "Xem thêm"
+    }
+  };
+
   const renderMentor = ({ item }) => {
     return (
       <Card style={styles.card}>
@@ -114,15 +127,34 @@ const Home = () => {
     </View>
   );
 
+  const renderFooter = () => {
+    // Check if there are more products to show
+    if (visible >= mentors.length) {
+      return null; // Don't show the "Load More" button if no more products
+    }
+
+    return (
+      <TouchableOpacity
+        className="bg-[#274a79] rounded-md p-1 text-center w-[40%] mt-4 mx-auto"
+        onPress={handleLoadMore}
+      >
+        <Title className="text-white text-center text-sm font-semibold">
+          Xem thêm
+        </Title>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={mentors}
+        data={mentors.slice(0, visible)}
         renderItem={renderMentor}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
         ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderFooter}
       />
     </SafeAreaView>
   );
@@ -132,6 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f7fcff",
+    paddingBottom: 10,
   },
   header: {
     backgroundColor: "#274a79",
