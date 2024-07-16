@@ -89,7 +89,7 @@ const MentorDetail = () => {
 
   const handleChatPress = (chatPartnerId) => {
     if (initialMentor) {
-      console.log("initialMentorCHAT", initialMentor);
+      // console.log("initialMentorCHAT", initialMentor);
       setChatboxes((prevChatboxes) =>
         prevChatboxes.map((chatbox) =>
           chatbox.chatPartnerId === chatPartnerId
@@ -99,7 +99,11 @@ const MentorDetail = () => {
       );
       router.push({
         pathname: "chat/chatbox",
-        params: { chatPartnerId, initialMentor: JSON.stringify(initialMentor) },
+        params: {
+          chatPartnerId,
+          chatPartnerPhoto: initialMentor.profilePic || "",
+          chatPartnerName: initialMentor.fullName,
+        },
       });
     }
   };
