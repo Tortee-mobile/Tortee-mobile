@@ -33,7 +33,7 @@ const Profile = () => {
           <View className="flex flex-row items-center tracking-wide my-3 bg-[#B3FFAC] p-2 rounded-lg shadow-md">
             <Ionicons name="bonfire-outline" size={20} color="#2D6B22" />
             <Text
-              key={role.id}
+              key={role.name}
               className=" text-[#2D6B22] font-semibold tracking-wider ml-1"
             >
               {role.name}
