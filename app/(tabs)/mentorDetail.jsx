@@ -9,11 +9,16 @@ import {
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import { router, useNavigation } from "expo-router";
-import { getMentorId, getMentorshipPlan } from "../../api/mentorService";
+import {
+  getMentorId,
+  getMentorReview,
+  getMentorshipPlan,
+} from "../../api/mentorService";
 import { useRoute } from "@react-navigation/native";
-import { FAB } from "react-native-paper";
+import { FAB, Title } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useChat } from "../../context/ChatContext";
+import StarRating from "../../components/StarReadOnly";
 
 const MentorDetail = () => {
   const navigation = useNavigation();
@@ -41,10 +46,15 @@ const MentorDetail = () => {
     refetch: refetchMentorPlan,
   } = useApi(() => getMentorshipPlan(mentorId), [mentorId]);
 
+  const {
+    data: feedbackMentorData,
+    loading: loadingMentorFeedback,
+    refetch: refetchMentorFeedback,
+  } = useApi(() => getMentorReview(mentorId), [mentorId]);
+
   const initialMentor = initialMentorData?.data;
   const mentorPlan = mentorPlanData?.data;
-
-  console.log("mentorPlan", mentorPlan);
+  const feedbackMentor = feedbackMentorData?.data;
 
   useLayoutEffect(() => {
     if (initialMentor) {
@@ -74,6 +84,7 @@ const MentorDetail = () => {
   useEffect(() => {
     refetchMentor();
     refetchMentorPlan();
+    refetchMentorFeedback();
   }, [mentorId]); // Refetch when mentorId changes
 
   const handleChatPress = (chatPartnerId) => {
@@ -98,9 +109,50 @@ const MentorDetail = () => {
     return <Text>Loading...</Text>;
   }
 
+  if (loadingMentorFeedback) {
+    return <Text>Loading...</Text>;
+  }
+
   if (!initialMentor || !mentorPlan) {
     return <Text>No mentor found.</Text>;
   }
+
+  const getRatingDescription = (rating) => {
+    switch (rating) {
+      case 0:
+        return "Very Poor";
+      case 1:
+        return "Poor";
+      case 2:
+        return "Average";
+      case 3:
+        return "Good";
+      case 4:
+        return "Very Good";
+      case 5:
+        return "Excellent";
+      default:
+        return "";
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const timeDiff = now - date; // Time difference in milliseconds
+
+    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+
+    if (hoursDiff < 24) {
+      return `${hoursDiff} hour${hoursDiff !== 1 ? "s" : ""} ago`;
+    } else {
+      return (
+        date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) +
+        ", " +
+        date.toLocaleDateString("en-GB")
+      ); // Format: dd/mm/yyyy
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -142,74 +194,123 @@ const MentorDetail = () => {
         )}
       </View>
 
-      <TouchableOpacity
-        style={styles.mentorshipButton}
-        onPress={toggleMentorshipPlan}
-      >
-        <Text style={styles.buttonText}>Show Mentorship Plan</Text>
-      </TouchableOpacity>
-
-      {isMentorshipPlanVisible && (
-        <View style={styles.mentorshipPlanContainer} className="shadow-lg p-6">
-          <Text style={styles.sectionTitle1}>Mentorship Plan</Text>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Description:</Text>
-            <Text style={styles.valueText} className="font-semibold text-gray">
-              {mentorPlan.descriptionOfPlan}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Calls per Month:</Text>
-            <Text style={styles.valueText}>{mentorPlan.callPerMonth}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Duration of Meeting:</Text>
-            <Text style={styles.valueText}>
-              {mentorPlan.durationOfMeeting} minutes
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Remaining Slots:</Text>
-            <Text style={styles.valueText}>{mentorPlan.remainSlot} slot</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Price:</Text>
-            <Text style={styles.priceText}>
-              {mentorPlan.price.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.labelText}>Status:</Text>
-            <Text style={styles.valueText}>{mentorPlan.status}</Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text
-              style={[
-                styles.labelText,
-                mentorPlan.isInMentorship
-                  ? styles.inMentorship
-                  : styles.notInMentorship,
-              ]}
-            >
-              Is in Mentorship:
-            </Text>
-            <Text
-              style={[
-                styles.valueText,
-                mentorPlan.isInMentorship
-                  ? styles.inMentorship
-                  : styles.notInMentorship,
-              ]}
-            >
-              {mentorPlan.isInMentorship ? "Yes" : "No"}
-            </Text>
-          </View>
-          <Text className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg">
+      <View style={styles.mentorshipPlanContainer} className="shadow-lg p-6">
+        <Text style={styles.sectionTitle1}>Mentorship Plan</Text>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Description:</Text>
+          <Text style={styles.valueText} className="font-semibold text-gray">
+            {mentorPlan.descriptionOfPlan}
+          </Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Calls per Month:</Text>
+          <Text style={styles.valueText}>{mentorPlan.callPerMonth}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Duration of Meeting:</Text>
+          <Text style={styles.valueText}>
+            {mentorPlan.durationOfMeeting} minutes
+          </Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Remaining Slots:</Text>
+          <Text style={styles.valueText}>{mentorPlan.remainSlot} slot</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Price:</Text>
+          <Text style={styles.priceText}>
+            {mentorPlan.price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text style={styles.labelText}>Status:</Text>
+          <Text style={styles.valueText}>{mentorPlan.status}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <Text
+            style={[
+              styles.labelText,
+              mentorPlan.isInMentorship
+                ? styles.inMentorship
+                : styles.notInMentorship,
+            ]}
+          >
+            Is in Mentorship:
+          </Text>
+          <Text
+            style={[
+              styles.valueText,
+              mentorPlan.isInMentorship
+                ? styles.inMentorship
+                : styles.notInMentorship,
+            ]}
+          >
+            {mentorPlan.isInMentorship ? "Yes" : "No"}
+          </Text>
+        </View>
+        {mentorPlan.status !== "Full Slot" ? (
+          <Text
+            className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg"
+            onPress={() =>
+              router.push({
+                pathname: "booking/booking",
+                params: { menteePlanId: mentorPlan.id },
+              })
+            }
+          >
             Apply now
           </Text>
+        ) : (
+          <Text className="text-[#274a79] font-bold my-3 text-center">
+            This mentorship plan is full slot!
+          </Text>
+        )}
+      </View>
+
+      {feedbackMentor !== undefined && (
+        <View>
+          <Text style={styles.sectionTitle} className="my-6">
+            Review by mentees:
+          </Text>
+          <Text className="text-gray">
+            Total: {feedbackMentor.data.length} reviews
+          </Text>
+          {feedbackMentor.data.map((item) => {
+            return (
+              <View key={item.id} className="flex-row items-center my-3">
+                <Image
+                  source={{
+                    uri: item.createdUserProfilePic
+                      ? item.createdUserProfilePic
+                      : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg",
+                  }}
+                  style={styles.profilePicReview}
+                  className=" mx-2"
+                />
+                <View>
+                  <View className="flex-row items-center ">
+                    <Title className="font-semibold text-base text-[#274a79] mr-2">
+                      {item.createdUserName}
+                    </Title>
+                    <StarRating rating={item.rating} />
+                    <Text className="text-gray-700 ml-2 font-semibold">
+                      ({getRatingDescription(item.rating)})
+                    </Text>
+                  </View>
+                  <View className="bg-white rounded-md p-2 w-full shadow my-2">
+                    <Text className="">{item.comment}</Text>
+                  </View>
+                  <Text className="text-xs text-gray-700">
+                    {formatDate(item.createdDate)}
+                  </Text>
+                  <Text>{item?.reply}</Text>
+                </View>
+              </View>
+            );
+          })}
         </View>
       )}
     </ScrollView>
@@ -232,9 +333,17 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 8,
   },
+  profilePicReview: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    marginBottom: 8,
+    borderWidth: 4, // Adjust the width as needed
+    borderColor: "#6adbd7", // Set the border color
+  },
   fullName: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   jobTitle: {
     fontSize: 16,
@@ -255,13 +364,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     width: "100%",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "700",
     marginBottom: 15,
   },
   sectionTitle1: {
     width: "100%",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "700",
     marginBottom: 15,
     textAlign: "center",
   },
@@ -310,7 +419,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     marginVertical: 10,
   },
-  tooltipTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
+  tooltipTitle: { fontSize: 18, fontWeight: "700", marginBottom: 8 },
   fab: {
     position: "absolute",
     margin: 16,
@@ -342,7 +451,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   mentorshipPlanContainer: {
     backgroundColor: "#ffffff",
@@ -370,7 +479,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 20,
     color: "#6adbd7",
-    fontWeight: 700,
+    fontWeight: "700",
     flex: 2,
   },
   inMentorship: {

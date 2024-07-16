@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  SafeAreaView,
   TouchableOpacity,
   Image,
   Alert,
@@ -18,6 +17,7 @@ import { Loader } from "../../components";
 import { images } from "../../constants";
 import { router } from "expo-router";
 import dayjs from "dayjs";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Application = () => {
   const { user } = useAuth();

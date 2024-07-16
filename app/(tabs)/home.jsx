@@ -27,6 +27,7 @@ import {
 } from "react-native-paper";
 import { Image } from "react-native";
 import { router, useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const Home = () => {
             source={{
               uri: item.profilePic
                 ? item.profilePic
-                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJRS-4chjWMRAmrtz7ivK53K_uygrgjzw9Uw&s",
+                : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg",
             }}
             style={styles.image}
           />
@@ -84,7 +85,7 @@ const Home = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Home Tỏ Tê</Text>
       </View>
@@ -137,7 +138,7 @@ const Home = () => {
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: "white",
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   welcomeContainer: {
     flexDirection: "row",
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "700",
     color: "#274a79",
     textAlign: "center",
   },
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
     padding: 8,
     width: "fit-content",
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: "600",
     backgroundColor: "#6adbd7",
     // textDecorationLine: "underline",
   },
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "700",
     color: "#274a79",
   },
   flatListContainer: {
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
   },
   mentorName: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "700",
     color: "#274a79",
     textAlign: "center",
   },

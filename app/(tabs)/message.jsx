@@ -6,7 +6,6 @@ import {
   View,
   Text,
   Image,
-  SafeAreaView,
   FlatList,
   TextInput,
   RefreshControl,
@@ -15,6 +14,7 @@ import {
 import useApi from "../../hooks/useApi";
 import { getAllChatBox } from "../../api/messageService";
 import { connectToMessageHub } from "../../api/signalRService";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Message = () => {
   const [searchText, setSearchText] = useState("");
