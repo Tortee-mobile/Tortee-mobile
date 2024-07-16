@@ -88,17 +88,20 @@ const MentorDetail = () => {
   }, [mentorId]); // Refetch when mentorId changes
 
   const handleChatPress = (chatPartnerId) => {
-    setChatboxes((prevChatboxes) =>
-      prevChatboxes.map((chatbox) =>
-        chatbox.chatPartnerId === chatPartnerId
-          ? { ...chatbox, unreadCount: 0 }
-          : chatbox
-      )
-    );
-    router.push({
-      pathname: "chat/chatbox",
-      params: { chatPartnerId },
-    });
+    if (initialMentor) {
+      console.log("initialMentorCHAT", initialMentor);
+      setChatboxes((prevChatboxes) =>
+        prevChatboxes.map((chatbox) =>
+          chatbox.chatPartnerId === chatPartnerId
+            ? { ...chatbox, unreadCount: 0 }
+            : chatbox
+        )
+      );
+      router.push({
+        pathname: "chat/chatbox",
+        params: { chatPartnerId, initialMentor: JSON.stringify(initialMentor) },
+      });
+    }
   };
 
   const toggleTooltip = () => {
@@ -254,11 +257,15 @@ const MentorDetail = () => {
         {mentorPlan.status !== "Full Slot" ? (
           <Text
             className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg"
-            onPress={() =>
-              router.push({
-                pathname: "booking/booking",
-                params: { menteePlanId: mentorPlan.id },
-              })
+            onPress={
+              () =>
+                navigation.navigate("booking/booking", {
+                  menteePlanId: mentorPlan.id,
+                })
+              // router.push({
+              //   pathname: "booking/booking",
+              //   params: { menteePlanId: mentorPlan.id },
+              // })
             }
           >
             Apply now
@@ -271,42 +278,41 @@ const MentorDetail = () => {
       </View>
 
       {feedbackMentor !== undefined && (
-        <View>
-          <Text style={styles.sectionTitle} className="my-6">
-            Review by mentees:
-          </Text>
-          <Text className="text-gray">
+        <View className="mt-6">
+          <Text className="text-lg font-semibold my-6">Review by mentees:</Text>
+          <Text className="text-gray-600">
             Total: {feedbackMentor.data.length} reviews
           </Text>
           {feedbackMentor.data.map((item) => {
             return (
-              <View key={item.id} className="flex-row items-center my-3">
+              <View key={item?.id} className="flex-row items-center my-3">
                 <Image
                   source={{
-                    uri: item.createdUserProfilePic
-                      ? item.createdUserProfilePic
+                    uri: item?.createdUserProfilePic
+                      ? item?.createdUserProfilePic
                       : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg",
                   }}
-                  style={styles.profilePicReview}
-                  className=" mx-2"
+                  className="w-12 h-12 rounded-full mx-2"
                 />
                 <View>
                   <View className="flex-row items-center ">
                     <Title className="font-semibold text-base text-[#274a79] mr-2">
-                      {item.createdUserName}
+                      {item?.createdUserName}
                     </Title>
-                    <StarRating rating={item.rating} />
+                    <StarRating rating={item?.rating} />
                     <Text className="text-gray-700 ml-2 font-semibold">
-                      ({getRatingDescription(item.rating)})
+                      ({getRatingDescription(item?.rating)})
                     </Text>
                   </View>
                   <View className="bg-white rounded-md p-2 w-full shadow my-2">
-                    <Text className="">{item.comment}</Text>
+                    <Text className="text-base text-gray-600">
+                      {item?.comment}
+                    </Text>
                   </View>
                   <Text className="text-xs text-gray-700">
-                    {formatDate(item.createdDate)}
+                    {formatDate(item?.createdDate)}
                   </Text>
-                  <Text>{item?.reply}</Text>
+                  <Text className="text-base text-gray-600">{item?.reply}</Text>
                 </View>
               </View>
             );
