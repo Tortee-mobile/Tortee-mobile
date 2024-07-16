@@ -19,6 +19,7 @@ import { FAB, Title } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { useChat } from "../../context/ChatContext";
 import StarRating from "../../components/StarReadOnly";
+import { Loader } from "../../components";
 
 const MentorDetail = () => {
   const navigation = useNavigation();
@@ -113,11 +114,11 @@ const MentorDetail = () => {
   };
 
   if (loadingMentor || loadingMentorPlan) {
-    return <Text>Loading...</Text>;
+    return <Loader isLoading={loadingMentor || loadingMentorPlan} />;
   }
 
   if (loadingMentorFeedback) {
-    return <Text>Loading...</Text>;
+    return <Loader isLoading={loadingMentorFeedback} />; // Loading spinner
   }
 
   if (!initialMentor || !mentorPlan) {
