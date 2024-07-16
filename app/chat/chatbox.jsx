@@ -141,18 +141,26 @@ const ChatBox = () => {
           </Text>
         </View>
       )}
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item) => item.sentTime.toString()}
-        className="flex-1 px-4"
-        contentContainerStyle={{ paddingBottom: 20 }}
-        onContentSizeChange={() =>
-          flatListRef.current &&
-          flatListRef.current.scrollToEnd({ animated: true })
-        }
-      />
+      {messages.length !== 0 ? (
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={renderMessage}
+          keyExtractor={(item) => item.sentTime.toString()}
+          className="flex-1 px-4"
+          contentContainerStyle={{ paddingBottom: 20 }}
+          onContentSizeChange={() =>
+            flatListRef.current &&
+            flatListRef.current.scrollToEnd({ animated: true })
+          }
+        />
+      ) : (
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-gray-600 italic">
+            You have no chat messages with this mentor yet.
+          </Text>
+        </View>
+      )}
       <View className="flex-row items-center px-4 py-4 bg-white">
         <TextInput
           className="flex-1 h-12 border border-gray-300 rounded-full px-4 bg-white shadow-sm"
