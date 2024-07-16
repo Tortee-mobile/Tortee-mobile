@@ -13,6 +13,8 @@ import MyAssignmentReceived from "../workspaceTabs/MyAssignmentReceived";
 import SentFeedback from "../workspaceTabs/SentFeedback";
 import MySubmission from "../workspaceTabs/MySubmission";
 import Banner from "../../components/BannerTitle";
+import MySentAss from "../workspaceTabs/MySentAss";
+import MyMentees from "../workspaceTabs/MyMentees";
 
 const Workspace = () => {
   const [activeTab, setActiveTab] = useState("My Mentors");
@@ -41,12 +43,12 @@ const Workspace = () => {
     {
       title: "My Mentees",
       icon: "person",
-      component: <MyMentors key="MyMentees" />,
+      component: <MyMentees key="MyMentees" />,
     },
     {
       title: "My Assignments Sent",
       icon: "send",
-      component: <MySubmission key="MyAssignmentsSent" />,
+      component: <MySentAss key="MyAssignmentsSent" />,
     },
   ];
 
