@@ -117,3 +117,19 @@ export const createPaymentUrl = async (data) => {
   const response = await apiClient.post(apiConfig.endpoints.payment, data);
   return response.data;
 };
+
+export const getAllMyMentorList = async (pageIndex = 1, pageSize = 10) => {
+  try {
+    const response = await apiClient.get(apiConfig.endpoints.myMentors, {
+      params: {
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving my mentor list:", error);
+    throw error;
+  }
+};

@@ -10,6 +10,7 @@ import {
   TextInput,
   RefreshControl,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import { getAllChatBox } from "../../api/messageService";
@@ -124,5 +125,20 @@ const Message = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: "#274a79",
+    padding: 15,
+    borderBottomWidth: 5,
+    borderBottomColor: "#6adbd7",
+    alignItems: "center",
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "700",
+  },
+});
 
 export default Message;
