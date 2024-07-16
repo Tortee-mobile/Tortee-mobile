@@ -14,7 +14,7 @@ import {
   updateApplicationStatus,
 } from "../../api/applicationService";
 import { Loader } from "../../components";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
 import { showErrorMessage } from "../../components/Toast";
@@ -23,6 +23,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 const ApplicationDetail = () => {
   const { id } = useLocalSearchParams();
+  const router = useRouter();
   const {
     user: { userRoles, id: userId },
   } = useAuth();
@@ -37,7 +38,7 @@ const ApplicationDetail = () => {
     try {
       await updateApplicationStatus({ id, status });
       Alert.alert("Success", `Application has been ${status.toLowerCase()}ed`);
-      navigation.goBack();
+      router.back();
     } catch (error) {
       Alert.alert("Error", error.message);
     }
@@ -179,7 +180,8 @@ const ApplicationDetail = () => {
               ))}
             </View>
           )}
-        {userRoles.map((ur) => ur.name).includes("Mentor") && (
+        {userRoles.map((ur) => ur.name).includes("Mentor") &&
+        application.status === "PENDING" ? (
           <View className="flex-row justify-between mt-4">
             <TouchableOpacity
               className="flex-1 py-3 rounded-lg bg-green-500 mx-2 items-center shadow-lg"
@@ -194,7 +196,7 @@ const ApplicationDetail = () => {
               <Text className="text-white text-lg font-bold">Deny</Text>
             </TouchableOpacity>
           </View>
-        )}
+        ) : null}
       </View>
     </ScrollView>
   );
