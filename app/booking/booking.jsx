@@ -16,6 +16,7 @@ import {
 } from "../../api/mentorService";
 import { Ionicons } from "@expo/vector-icons";
 import { showErrorMessage, showSuccessMessage } from "../../components/Toast";
+import { router } from "expo-router";
 
 const Booking = () => {
   const navigation = useNavigation();
@@ -24,21 +25,22 @@ const Booking = () => {
   const [responses, setResponses] = useState({});
   const [questions, setQuestions] = useState([]);
 
-  console.log("questions", questions);
-
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: "Booking",
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Ionicons name="arrow-back" size={24} color="#6adbd7" />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+    if (menteePlanId) {
+      navigation.setOptions({
+        headerTitle: "Booking",
+        headerShown: true,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ padding: 10 }}
+          >
+            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+          </TouchableOpacity>
+        ),
+      });
+    }
+  }, [navigation, menteePlanId]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -62,7 +64,9 @@ const Booking = () => {
     try {
       await applyForMentee(menteePlanId, menteeApplicationAnswers);
       showSuccessMessage("Success, Application submitted successfully!");
-      navigation.goBack();
+      router.push({
+        pathname: "application",
+      });
     } catch (error) {
       showErrorMessage(
         "Error, Failed to submit application. Please try again."

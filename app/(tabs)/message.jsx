@@ -45,7 +45,11 @@ const Message = () => {
     initializeSignalR();
   }, []);
 
-  const handleChatboxPress = (chatPartnerId) => {
+  const handleChatboxPress = (
+    chatPartnerId,
+    chatPartnerPhoto,
+    chatPartnerName
+  ) => {
     setChatboxes((prevChatboxes) =>
       prevChatboxes.map((chatbox) =>
         chatbox.chatPartnerId === chatPartnerId
@@ -55,12 +59,20 @@ const Message = () => {
     );
     router.push({
       pathname: "chat/chatbox",
-      params: { chatPartnerId },
+      params: { chatPartnerId, chatPartnerPhoto, chatPartnerName },
     });
   };
 
   const renderChatbox = ({ item }) => (
-    <TouchableOpacity onPress={() => handleChatboxPress(item.chatPartnerId)}>
+    <TouchableOpacity
+      onPress={() =>
+        handleChatboxPress(
+          item.chatPartnerId,
+          item.chatPartnerPhoto || "",
+          item.chatPartnerName
+        )
+      }
+    >
       <View className="flex-row items-center p-4 bg-white rounded-lg shadow-lg mb-3">
         <Image
           source={
@@ -91,7 +103,7 @@ const Message = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
-      <View className="p-4">
+      <View className="p-6 flex-1">
         <Text className="text-2xl font-bold text-gray-900 mb-4">Messages</Text>
         <TextInput
           className="h-12 border border-gray-300 rounded-lg px-4 mb-6 bg-white shadow-sm"
@@ -103,7 +115,8 @@ const Message = () => {
           data={chatboxes}
           renderItem={renderChatbox}
           keyExtractor={(item) => item.chatPartnerId.toString()}
-          className="bg-transparent"
+          className="bg-transparent flex-1"
+          showsVerticalScrollIndicator={false} // Hide the scrollbar
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

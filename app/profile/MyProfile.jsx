@@ -4,7 +4,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Touchable,
 } from "react-native";
 import React from "react";
 import { Ionicons, FontAwesome,Feather } from "@expo/vector-icons";
@@ -13,6 +12,7 @@ import useApi from "../../hooks/useApi";
 import { getCurrentUser } from "../../api/userService";
 import { router } from "expo-router";
 import avatar from "../../assets/images/avatar.jpg";
+import { images } from "../../constants";
 
 const InfoRow = ({ icon, label, value }) => (
   <View className="flex flex-row justify-between mb-4">

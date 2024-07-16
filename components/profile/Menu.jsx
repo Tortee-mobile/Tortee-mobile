@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { FontAwesome5, Ionicons, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Menu() {
+  const { logout } = useAuth();
   return (
     <View>
       <TouchableOpacity onPress={()=> router.navigate('profile/AccountSetting')} className="flex flex-row items-center justify-between mx-10 mb-5">
@@ -62,25 +64,27 @@ export default function Menu() {
         </View>
         <Ionicons name="chevron-forward-outline" size={25} />
       </View>
+      <TouchableOpacity onPress={logout}>
+        <View className="flex flex-row items-center justify-between mx-10 mb-5">
+          <View className="flex flex-row items-center gap-4 ">
+            <Ionicons
+              name="log-out-outline"
+              size={25}
+              style={{
+                backgroundColor: "#6adbd7",
+                width: 40,
+                height: 40,
+                borderRadius: 50,
+                textAlign: "center",
+                paddingTop: 6,
+              }}
+            />
 
-      <View className="flex flex-row items-center justify-between mx-10 mb-5">
-        <View className="flex flex-row items-center gap-4 ">
-          <Ionicons
-            name="log-out-outline"
-            size={25}
-            style={{
-              backgroundColor: "#6adbd7",
-              width: 40,
-              height: 40,
-              borderRadius: 50,
-              textAlign: "center",
-              paddingTop: 6,
-            }}
-          />
-          <Text className="text-lg">Logout</Text>
+            <Text className="text-lg">Logout</Text>
+          </View>
+          <Ionicons name="chevron-forward-outline" size={25} />
         </View>
-        <Ionicons name="chevron-forward-outline" size={25} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

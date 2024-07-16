@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -15,21 +15,20 @@ import useApi from "../../hooks/useApi";
 import { getChatMessages, readMessages } from "../../api/messageService";
 import { connectToMessageHub, sendMessage } from "../../api/signalRService";
 import dayjs from "dayjs";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 const ChatBox = () => {
-  const { chatPartnerId } = useLocalSearchParams();
+  const { chatPartnerId, chatPartnerPhoto, chatPartnerName } =
+    useLocalSearchParams();
   const [newMessage, setNewMessage] = useState("");
-  const [partner, setPartner] = useState({});
   const [messages, setMessages] = useState([]);
   const flatListRef = useRef(null);
-
+  const navigation = useNavigation();
   const {
     data: { data: initialMessages },
     loading,
   } = useApi(() => getChatMessages(chatPartnerId));
-
-  console.log(chatPartnerId, "chatPartnerId");
-  console.log(initialMessages, "initialMessages");
 
   useEffect(() => {
     const initializeMessages = async () => {
@@ -38,16 +37,40 @@ const ChatBox = () => {
         if (flatListRef.current) {
           flatListRef.current.scrollToEnd({ animated: false });
         }
-        setPartner({
-          senderName: initialMessages[0].senderName,
-          avatar: initialMessages[0].senderPhotoUrl,
-        });
+
         await readMessages(chatPartnerId);
       }
     };
 
     initializeMessages();
   }, [initialMessages, chatPartnerId]);
+
+  useLayoutEffect(() => {
+    if (chatPartnerId) {
+      navigation.setOptions({
+        headerTitle: () => (
+          <View className="ml-2 flex-row mb-2 top-0 z-10">
+            <Image
+              chatPartnerName
+              source={
+                chatPartnerPhoto ? { uri: chatPartnerPhoto } : images.avatar
+              }
+              className="w-10 h-10 rounded-full"
+            />
+            <Text className="ml-2 text-xl font-semibold text-gray-900">
+              {chatPartnerName}
+            </Text>
+          </View>
+        ),
+        headerShown: true,
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+        //   </TouchableOpacity>
+        // ),
+      });
+    }
+  }, [navigation, chatPartnerId, chatPartnerName, chatPartnerPhoto]);
 
   useEffect(() => {
     const initializeSignalR = async () => {
@@ -105,16 +128,7 @@ const ChatBox = () => {
   if (loading) return <Loader isLoading={loading} />;
 
   return (
-    <SafeAreaView className="flex-1 h-full bg-white">
-      <View className="bg-white px-4 shadow-md py-2 flex-row items-center mb-4 border-b border-primary sticky top-0 z-10">
-        <Image
-          source={partner.avatar ? { uri: partner.avatar } : images.avatar}
-          className="w-12 h-12 rounded-full"
-        />
-        <Text className="ml-4 text-xl font-semibold text-gray-900">
-          {partner.senderName}
-        </Text>
-      </View>
+    <SafeAreaView className="flex-1 h-full pt-5">
       <FlatList
         ref={flatListRef}
         data={messages}

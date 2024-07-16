@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  RefreshControl,
 } from "react-native";
-import { useAuth } from "../../context/AuthContext";
 import {
   getMenteeApplicationsSent,
   getMenteeApplicationsReceived,
@@ -17,6 +17,7 @@ import { images } from "../../constants";
 import { router } from "expo-router";
 import dayjs from "dayjs";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../context/AuthContext";
 
 const Application = () => {
   const { user } = useAuth();
@@ -26,6 +27,13 @@ const Application = () => {
   const [sentApplications, setSentApplications] = useState([]);
   const [receivedApplications, setReceivedApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchApplications();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -83,7 +91,7 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
 
     return (
       <TouchableOpacity
-        className="flex-row bg-white p-4 rounded-lg mb-4 items-center shadow-md"
+        className="flex-row bg-white p-4 pt-0 rounded-lg mb-4 items-center shadow-md"
         onPress={() => handleApplicationClick(item.id)}
       >
         <Image
@@ -136,12 +144,15 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
         renderItem={renderApplicationItem}
         keyExtractor={(item) => item.id.toString()}
         className="flex-1"
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     );
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-secondary/20 p-4 pb-0">
+    <SafeAreaView className="flex-1 bg-secondary/20 p-4 pt-0 pb-0">
       <View className="flex-row justify-center mb-4 mt-5">
         {user.userRoles.map((ur) => ur.name).includes("Mentee") && (
           <TouchableOpacity
