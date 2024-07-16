@@ -34,7 +34,7 @@ export const getMentorId = async (mentorId) => {
 export const getMentorshipPlan = async (
   mentorId,
   pageIndex = 1,
-  pageSize = 10
+  pageSize = 100
 ) => {
   try {
     const response = await apiClient.get(
