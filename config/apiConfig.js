@@ -22,10 +22,11 @@ export const apiConfig = {
     menteeAplly: "mentee/apply",
     applicationQuestions: "/ApplicationQuestion",
     payment: "/Payment/create-payment-url",
+    myMentors: "Workspace/mentee/my-mentors",
 
     // Add other endpoints as needed
-    getSkill:"/Skill",
-    addSkill:"/Skill/update-my-skill"
+    getSkill: "/Skill",
+    addSkill: "/Skill/update-my-skill",
   },
   hubs: {
     chatHub: "https://totevn.azurewebsites.net/chathub",
