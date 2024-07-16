@@ -34,7 +34,6 @@ const ApplicationDetail = () => {
   } = useApi(() => getApplicationDetail(id));
 
   const [paymentLoading, setPaymentLoading] = useState(false);
-  console.log(application);
   const handleUpdateStatus = async (status) => {
     try {
       await updateApplicationStatus({ id, status });

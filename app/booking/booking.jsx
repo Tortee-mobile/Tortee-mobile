@@ -25,8 +25,6 @@ const Booking = () => {
   const [responses, setResponses] = useState({});
   const [questions, setQuestions] = useState([]);
 
-  console.log("questions", questions);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "Booking",
