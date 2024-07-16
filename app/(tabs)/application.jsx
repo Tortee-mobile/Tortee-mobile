@@ -7,7 +7,6 @@ import {
   Image,
   Alert,
   RefreshControl,
-  StyleSheet,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -153,67 +152,48 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
   };
 
   return (
-    <View>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>My Appication</Text>
+    <SafeAreaView className="flex-1 bg-secondary/20 p-4 pt-0 pb-0">
+      <View className="flex-row justify-center mb-4 mt-5">
+        {user.userRoles.map((ur) => ur.name).includes("Mentee") && (
+          <TouchableOpacity
+            className={`py-2 px-4 rounded-2xl border mx-2 ${
+              filter === "sent"
+                ? "bg-secondary border-white"
+                : "border-gray-300"
+            }`}
+            onPress={() => setFilter("sent")}
+          >
+            <Text
+              className={`${
+                filter === "sent" ? "text-primary" : "text-primary"
+              }`}
+            >
+              Sent Applications
+            </Text>
+          </TouchableOpacity>
+        )}
+        {user.userRoles.map((ur) => ur.name).includes("Mentor") && (
+          <TouchableOpacity
+            className={`py-2 px-4 rounded-2xl border mx-2 ${
+              filter === "received"
+                ? "bg-secondary border-white"
+                : "border-gray-300"
+            }`}
+            onPress={() => setFilter("received")}
+          >
+            <Text
+              className={`${
+                filter === "received" ? "text-primary" : "text-primary"
+              }`}
+            >
+              Received Applications
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
-      <SafeAreaView className=" flex-1 bg-secondary/20 p-4 pt-0 pb-0">
-        <View className="flex-row justify-center mb-4 mt-5">
-          {user.userRoles.map((ur) => ur.name).includes("Mentee") && (
-            <TouchableOpacity
-              className={`py-2 px-4 rounded-2xl border mx-2 ${
-                filter === "sent"
-                  ? "bg-secondary border-white"
-                  : "border-gray-300"
-              }`}
-              onPress={() => setFilter("sent")}
-            >
-              <Text
-                className={`${
-                  filter === "sent" ? "text-primary" : "text-primary"
-                }`}
-              >
-                Sent Applications
-              </Text>
-            </TouchableOpacity>
-          )}
-          {user.userRoles.map((ur) => ur.name).includes("Mentor") && (
-            <TouchableOpacity
-              className={`py-2 px-4 rounded-2xl border mx-2 ${
-                filter === "received"
-                  ? "bg-secondary border-white"
-                  : "border-gray-300"
-              }`}
-              onPress={() => setFilter("received")}
-            >
-              <Text
-                className={`${
-                  filter === "received" ? "text-primary" : "text-primary"
-                }`}
-              >
-                Received Applications
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        {renderApplications()}
-      </SafeAreaView>
-    </View>
+      {renderApplications()}
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: "#274a79",
-    padding: 15,
-    borderBottomWidth: 5,
-    borderBottomColor: "#6adbd7",
-    alignItems: "center",
-  },
-  headerText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "700",
-  },
-});
 export default Application;
