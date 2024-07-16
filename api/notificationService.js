@@ -26,7 +26,7 @@ export const getTotalUnreadNotifications = async () => {
 
 export const markNotificationAsRead = async () => {
   const response = await apiClient.put(
-    apiClient.endpoints.markNotificationAsRead
+    apiConfig.endpoints.markNotificationAsRead
   );
   return response.data;
 };

@@ -1,15 +1,20 @@
-import React from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import React, { useCallback, useState } from "react";
+import { View, Text, Image, FlatList, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useApi from "../../hooks/useApi";
-import { getNotifications } from "../../api/notificationService";
+import {
+  getNotifications,
+  markNotificationAsRead,
+} from "../../api/notificationService";
 import { Loader } from "../../components";
+import { images } from "../../constants";
+import { useFocusEffect } from "@react-navigation/native";
 
 const NotificationItem = ({ senderAvatar, content, createdDate }) => {
   return (
     <View className="flex-row items-center p-4 bg-white rounded-lg shadow-md mb-4">
       <Image
-        source={{ uri: senderAvatar }}
+        source={senderAvatar ? { uri: senderAvatar } : images.avatar}
         className="w-12 h-12 rounded-full border border-gray-300 mr-4"
       />
       <View className="flex-1">
@@ -24,6 +29,20 @@ const NotificationItem = ({ senderAvatar, content, createdDate }) => {
 
 const Notification = () => {
   const { data, loading, refetch } = useApi(getNotifications);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+      markNotificationAsRead();
+    }, [])
+  );
 
   if (loading) return <Loader isLoading={loading} />;
 
@@ -35,7 +54,7 @@ const Notification = () => {
         </Text>
         <FlatList
           data={data.data}
-          keyExtractor={(item) => item.senderId}
+          keyExtractor={(item) => item.createdDate}
           renderItem={({ item }) => (
             <NotificationItem
               senderAvatar={item.senderAvatar}
@@ -44,6 +63,9 @@ const Notification = () => {
             />
           )}
           contentContainerStyle={{ paddingBottom: 20 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       </View>
     </SafeAreaView>
