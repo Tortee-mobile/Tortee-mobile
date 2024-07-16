@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Menu() {
-  const { signOut } = useAuth();
+  const { logout } = useAuth();
   return (
     <View>
       <View className="flex flex-row items-center justify-between mx-10 mb-5">
@@ -63,7 +63,7 @@ export default function Menu() {
         </View>
         <Ionicons name="chevron-forward-outline" size={25} />
       </View>
-      <TouchableOpacity onPress={signOut}>
+      <TouchableOpacity onPress={logout}>
         <View className="flex flex-row items-center justify-between mx-10 mb-5">
           <View className="flex flex-row items-center gap-4 ">
             <Ionicons
