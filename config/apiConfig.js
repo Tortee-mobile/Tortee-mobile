@@ -25,11 +25,14 @@ export const apiConfig = {
     payment: "/Payment/create-payment-url",
     myMentors: "Workspace/mentee/my-mentors",
     myAss: "Workspace/mentee/my-assignments",
+    AssDetail: "Workspace/assignments",
+    SubmitAss: "Workspace/mentee/submit",
     mySubmition: "Workspace/mentee/my-submissions",
     myFeedback: "Feedback/send-feedback",
     myMentees: "Workspace/mentor/my-mentees",
     mySentAss: "Workspace/mentor/assignments",
-
+    getAllSubmitInAss: "Workspace/assignments",
+    addFeedback: "Feedback/send-feedback",
     // Add other endpoints as needed
     getSkill: "/Skill",
     addSkill: "/Skill/update-my-skill",

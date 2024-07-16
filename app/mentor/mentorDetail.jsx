@@ -58,28 +58,29 @@ const MentorDetail = () => {
   const feedbackMentor = feedbackMentorData?.data;
 
   useLayoutEffect(() => {
-    if (initialMentor) {
-      navigation.setOptions({
-        headerTitle: "Mentor Detail",
-        headerLeft: () => (
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-            className="ml-4"
-          >
-            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity
-            onPress={() => handleChatPress(initialMentor?.id)}
-            className="mr-10"
-          >
-            <Ionicons name="chatbubbles" size={24} color="#6adbd7" />
-          </TouchableOpacity>
-        ),
-      });
-    }
+    // if (initialMentor) {
+    navigation.setOptions({
+      headerTitle: "Mentor Detail",
+      headerShown: true,
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+          className="ml-4"
+        >
+          <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => handleChatPress(initialMentor?.id)}
+          className="mr-10"
+        >
+          <Ionicons name="chatbubbles" size={24} color="#6adbd7" />
+        </TouchableOpacity>
+      ),
+    });
+    // }
   }, [navigation, initialMentor, mentorId]);
 
   useEffect(() => {
@@ -261,17 +262,17 @@ const MentorDetail = () => {
         </View>
         {mentorPlan.status !== "Full Slot" ? (
           <Text
-            className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg"
-            onPress={
-              () =>
-                navigation.navigate("booking/booking", {
-                  menteePlanId: mentorPlan.id,
-                })
-              // router.push({
-              //   pathname: "booking/booking",
-              //   params: { menteePlanId: mentorPlan.id },
-              // })
+            className={`p-2 mt-5 rounded-md text-center font-bold uppercase text-lg ${
+              mentorPlan.isInMentorship
+                ? "bg-gray-300 text-gray-500"
+                : "bg-[#6adbd7] text-[#274a79]"
+            }`}
+            onPress={() =>
+              navigation.navigate("booking/booking", {
+                menteePlanId: mentorPlan.id,
+              })
             }
+            disabled={mentorPlan.isInMentorship === true}
           >
             Apply now
           </Text>

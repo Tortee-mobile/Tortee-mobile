@@ -2,8 +2,11 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import useApi from "../../hooks/useApi";
 import { getAllMyMentorList } from "../../api/mentorService";
+import { useNavigation } from "expo-router";
 
 const MyMentors = () => {
+  const navigation = useNavigation();
+
   const { data, loading, refetch } = useApi(getAllMyMentorList);
 
   return (
@@ -15,7 +18,12 @@ const MyMentors = () => {
         <Text>Loading...</Text>
       ) : data?.data.length > 0 ? (
         data.data.map((mentor) => (
-          <View
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("mentor/mentorDetail", {
+                mentorId: mentor.id,
+              })
+            }
             key={mentor.id}
             className="bg-white p-4 rounded-lg shadow-lg mb-4 w-full flex-row items-center"
           >
@@ -24,13 +32,20 @@ const MyMentors = () => {
               className="w-24 h-24 rounded-md mr-4"
             />
             <View>
-              <Text className="text-lg font-bold text-[rgb(39,74,121)]">
+              <Text
+                className="text-lg font-bold text-[#274a79]"
+                onPress={() =>
+                  navigation.navigate("mentor/mentorDetail", {
+                    mentorId: mentor.id,
+                  })
+                }
+              >
                 {mentor.fullName}
               </Text>
-              <Text className="text-sm text-gray-600">{mentor.email}</Text>
+              <Text className="text-sm text-gray-600 ">{mentor.email}</Text>
               <Text className="text-sm text-gray-600">{mentor.jobTitle}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))
       ) : (
         <View className="bg-white p-4 rounded-lg shadow-lg mb-4 w-full">
