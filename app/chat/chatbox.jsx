@@ -17,9 +17,9 @@ import { connectToMessageHub, sendMessage } from "../../api/signalRService";
 import dayjs from "dayjs";
 
 const ChatBox = () => {
-  const { chatPartnerId } = useLocalSearchParams();
+  const { chatPartnerId, chatPartnerPhoto, chatPartnerName } =
+    useLocalSearchParams();
   const [newMessage, setNewMessage] = useState("");
-  const [partner, setPartner] = useState({});
   const [messages, setMessages] = useState([]);
   const flatListRef = useRef(null);
 
@@ -35,10 +35,7 @@ const ChatBox = () => {
         if (flatListRef.current) {
           flatListRef.current.scrollToEnd({ animated: false });
         }
-        setPartner({
-          senderName: initialMessages[0].senderName,
-          avatar: initialMessages[0].senderPhotoUrl,
-        });
+
         await readMessages(chatPartnerId);
       }
     };
@@ -105,11 +102,12 @@ const ChatBox = () => {
     <SafeAreaView className="flex-1 h-full pt-5">
       <View className="px-4 shadow-md py-2 flex-row items-center mb-4 border-b border-primary sticky top-0 z-10">
         <Image
-          source={partner.avatar ? { uri: partner.avatar } : images.avatar}
+          chatPartnerName
+          source={chatPartnerPhoto ? { uri: chatPartnerPhoto } : images.avatar}
           className="w-12 h-12 rounded-full"
         />
         <Text className="ml-4 text-xl font-semibold text-gray-900">
-          {partner.senderName}
+          {chatPartnerName}
         </Text>
       </View>
       <FlatList

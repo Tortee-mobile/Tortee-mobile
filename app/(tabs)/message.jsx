@@ -45,7 +45,11 @@ const Message = () => {
     initializeSignalR();
   }, []);
 
-  const handleChatboxPress = (chatPartnerId) => {
+  const handleChatboxPress = (
+    chatPartnerId,
+    chatPartnerPhoto,
+    chatPartnerName
+  ) => {
     setChatboxes((prevChatboxes) =>
       prevChatboxes.map((chatbox) =>
         chatbox.chatPartnerId === chatPartnerId
@@ -55,12 +59,20 @@ const Message = () => {
     );
     router.push({
       pathname: "chat/chatbox",
-      params: { chatPartnerId },
+      params: { chatPartnerId, chatPartnerPhoto, chatPartnerName },
     });
   };
 
   const renderChatbox = ({ item }) => (
-    <TouchableOpacity onPress={() => handleChatboxPress(item.chatPartnerId)}>
+    <TouchableOpacity
+      onPress={() =>
+        handleChatboxPress(
+          item.chatPartnerId,
+          item.chatPartnerPhoto || "",
+          item.chatPartnerName
+        )
+      }
+    >
       <View className="flex-row items-center p-4 bg-white rounded-lg shadow-lg mb-3">
         <Image
           source={
