@@ -28,9 +28,6 @@ const ChatBox = () => {
     loading,
   } = useApi(() => getChatMessages(chatPartnerId));
 
-  console.log(chatPartnerId, "chatPartnerId");
-  console.log(initialMessages, "initialMessages");
-
   useEffect(() => {
     const initializeMessages = async () => {
       if (initialMessages && initialMessages.length > 0) {
@@ -105,8 +102,8 @@ const ChatBox = () => {
   if (loading) return <Loader isLoading={loading} />;
 
   return (
-    <SafeAreaView className="flex-1 h-full bg-white">
-      <View className="bg-white px-4 shadow-md py-2 flex-row items-center mb-4 border-b border-primary sticky top-0 z-10">
+    <SafeAreaView className="flex-1 h-full pt-5">
+      <View className="px-4 shadow-md py-2 flex-row items-center mb-4 border-b border-primary sticky top-0 z-10">
         <Image
           source={partner.avatar ? { uri: partner.avatar } : images.avatar}
           className="w-12 h-12 rounded-full"

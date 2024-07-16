@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
           const currentUser = await getCurrentUser();
           setUser(currentUser);
         }
-      //  console.log("user", user);
       } catch (error) {
         console.error(error);
       } finally {
