@@ -3,35 +3,22 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
-  Alert,
-  Platform,
-  PermissionsAndroid,
-  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import { getAllMentorList } from "../../api/mentorService";
-import {
-  Card,
-  Title,
-  Paragraph,
-  Button,
-  Modal,
-  Searchbar,
-  Menu,
-  Provider,
-  ActivityIndicator,
-  Avatar,
-} from "react-native-paper";
+import { Card, Title, Paragraph, Avatar } from "react-native-paper";
 import { Image } from "react-native";
-import { router, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../context/AuthContext";
+import { images } from "../../constants";
 
 const Home = () => {
   const navigation = useNavigation();
   const [mentors, setMentors] = useState([]);
+  const { user } = useAuth();
 
   const { data, loading, refetch } = useApi(getAllMentorList);
 
@@ -41,17 +28,13 @@ const Home = () => {
     }
   }, [data]);
 
-  console.log("MentorList", mentors);
-
   const renderMentor = ({ item }) => {
     return (
       <Card style={styles.card}>
         <Card.Content>
           <Image
             source={{
-              uri: item.profilePic
-                ? item.profilePic
-                : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg",
+              uri: item.profilePic ? item.profilePic : images.avatar,
             }}
             style={styles.image}
           />
@@ -84,20 +67,22 @@ const Home = () => {
     );
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
+  const renderHeader = () => (
+    <View>
       <View style={styles.header}>
         <Text style={styles.headerText}>Home Tỏ Tê</Text>
       </View>
-      <ScrollView className="mt-6  mx-4">
+      <View className="mt-6 mx-4">
         <View className="flex-row justify-center w-full">
           <View style={styles.welcomeTextContainer}>
-            <Text className="text-center text-xl font-bold uppercase text-[#274a79] mb-4">
-              Mentee
+            <Text className="text-center text-xl font-bold text-[#274a79] mb-4">
+              Hi, {user?.fullName}
             </Text>
             <Avatar.Image
               size={100}
-              source="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-600nw-1725655669.jpg"
+              source={
+                user?.profilePic ? { uri: user.profilePic } : images.avatar
+              }
               className="mx-auto mb-3"
             />
             <Text style={styles.welcomeText} className="mb-1">
@@ -111,11 +96,7 @@ const Home = () => {
             </Text>
             <TouchableOpacity
               style={styles.profileSettingBtn}
-              onPress={() =>
-                router.push({
-                  pathname: "profile",
-                })
-              }
+              onPress={() => navigation.navigate("profile")}
             >
               <Text style={styles.profileSettingText}>Profile Setting</Text>
             </TouchableOpacity>
@@ -125,19 +106,23 @@ const Home = () => {
             </Text>
           </View>
         </View>
-        <View style={styles.mentorListContainer}>
-          <Text style={styles.listTitle} className="uppercase my-4">
-            List Tortee mentor:
-          </Text>
-          <FlatList
-            data={mentors}
-            renderItem={renderMentor}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            numColumns={2}
-            contentContainerStyle={styles.flatListContainer}
-          />
-        </View>
-      </ScrollView>
+        <Text style={styles.listTitle} className="uppercase my-4">
+          List Tortee mentor:
+        </Text>
+      </View>
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={mentors}
+        renderItem={renderMentor}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContainer}
+        ListHeaderComponent={renderHeader}
+      />
     </SafeAreaView>
   );
 };
@@ -145,7 +130,6 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 10,
     backgroundColor: "#f7fcff",
   },
   header: {
@@ -165,7 +149,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-
   welcomeTextContainer: {
     flex: 1,
     marginBottom: 20,
@@ -196,11 +179,9 @@ const styles = StyleSheet.create({
     color: "#274a79",
     borderRadius: 8,
     padding: 8,
-    width: "fit-content",
     fontSize: 14,
     fontWeight: "600",
     backgroundColor: "#6adbd7",
-    // textDecorationLine: "underline",
   },
   mentorListContainer: {
     flex: 1,
@@ -238,6 +219,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#274a79",
     textAlign: "center",
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: "600",
   },
 });
 

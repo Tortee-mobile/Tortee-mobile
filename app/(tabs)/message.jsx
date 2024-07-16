@@ -91,7 +91,7 @@ const Message = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
-      <View className="p-4">
+      <View className="p-6">
         <Text className="text-2xl font-bold text-gray-900 mb-4">Messages</Text>
         <TextInput
           className="h-12 border border-gray-300 rounded-lg px-4 mb-6 bg-white shadow-sm"
