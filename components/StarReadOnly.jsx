@@ -1,6 +1,6 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons"; // Add this import
-import { View } from "react-native-web";
+import { View } from "react-native";
 
 const StarRating = ({ rating }) => {
   const stars = Array(5)
