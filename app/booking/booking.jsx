@@ -26,18 +26,21 @@ const Booking = () => {
   const [questions, setQuestions] = useState([]);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: "Booking",
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Ionicons name="arrow-back" size={24} color="#6adbd7" />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+    if (menteePlanId) {
+      navigation.setOptions({
+        headerTitle: "Booking",
+        headerShown: true,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ padding: 10 }}
+          >
+            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+          </TouchableOpacity>
+        ),
+      });
+    }
+  }, [navigation, menteePlanId]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
