@@ -14,6 +14,7 @@ import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import { images } from "../../constants";
+import { Loader } from "../../components";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const Home = () => {
       setMentors(data.data.data);
     }
   }, [data]);
-
+  if (loading) return <Loader isLoading={loading} />;
   const renderMentor = ({ item }) => {
     return (
       <Card style={styles.card}>
@@ -52,7 +53,7 @@ const Home = () => {
         </Card.Content>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("mentorDetail", { mentorId: item.id })
+            navigation.navigate("mentor/mentorDetail", { mentorId: item.id })
           }
           className="items-center flex-row justify-center mb-3"
         >
