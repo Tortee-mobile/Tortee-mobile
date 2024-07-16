@@ -15,42 +15,49 @@ import MySubmission from "../workspaceTabs/MySubmission";
 import Banner from "../../components/BannerTitle";
 import MySentAss from "../workspaceTabs/MySentAss";
 import MyMentees from "../workspaceTabs/MyMentees";
+import { useAuth } from "../../context/AuthContext";
 
 const Workspace = () => {
+  const { user } = useAuth();
+  const isMentor = user?.userRoles?.map((ur) => ur.name).includes("Mentor");
   const [activeTab, setActiveTab] = useState("My Mentors");
 
-  const tabs = [
-    {
-      title: "My Mentors",
-      icon: "person",
-      component: <MyMentors key="MyMentors" />,
-    },
-    {
-      title: "My Assignment Received",
-      icon: "assignment",
-      component: <MyAssignmentReceived key="MyAssignmentReceived" />,
-    },
-    {
-      title: "My Submission",
-      icon: "send",
-      component: <MySubmission key="MySubmission" />,
-    },
-    {
-      title: "Sent Feedback",
-      icon: "feedback",
-      component: <SentFeedback key="SentFeedback" />,
-    },
-    {
-      title: "My Mentees",
-      icon: "person",
-      component: <MyMentees key="MyMentees" />,
-    },
-    {
-      title: "My Assignments Sent",
-      icon: "send",
-      component: <MySentAss key="MyAssignmentsSent" />,
-    },
-  ];
+  // Định nghĩa các tab dựa trên vai trò
+  const tabs = isMentor
+    ? [
+        {
+          title: "My Mentees",
+          icon: "person",
+          component: <MyMentees key="MyMentees" />,
+        },
+        {
+          title: "My Assignments Sent",
+          icon: "send",
+          component: <MySentAss key="MyAssignmentsSent" />,
+        },
+      ]
+    : [
+        {
+          title: "My Mentors",
+          icon: "person",
+          component: <MyMentors key="MyMentors" />,
+        },
+        {
+          title: "My Assignment Received",
+          icon: "assignment",
+          component: <MyAssignmentReceived key="MyAssignmentReceived" />,
+        },
+        {
+          title: "My Submission",
+          icon: "send",
+          component: <MySubmission key="MySubmission" />,
+        },
+        {
+          title: "Sent Feedback",
+          icon: "feedback",
+          component: <SentFeedback key="SentFeedback" />,
+        },
+      ];
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100  bg-secondary/20">

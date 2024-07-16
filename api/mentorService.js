@@ -31,6 +31,19 @@ export const getMentorId = async (mentorId) => {
   }
 };
 
+export const getMenteeId = async (menteeId) => {
+  try {
+    const response = await apiClient.get(
+      `${apiConfig.endpoints.mentorId}/${menteeId}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving this mentor:", error);
+    throw error;
+  }
+};
+
 export const getMentorshipPlan = async (
   mentorId,
   pageIndex = 1,
