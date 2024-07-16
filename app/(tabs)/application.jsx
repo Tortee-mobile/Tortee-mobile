@@ -91,7 +91,7 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
 
     return (
       <TouchableOpacity
-        className="flex-row bg-white p-4 rounded-lg mb-4 items-center shadow-md"
+        className="flex-row bg-white p-4 pt-0 rounded-lg mb-4 items-center shadow-md"
         onPress={() => handleApplicationClick(item.id)}
       >
         <Image
@@ -152,7 +152,7 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-secondary/20 p-4 pb-0">
+    <SafeAreaView className="flex-1 bg-secondary/20 p-4 pt-0 pb-0">
       <View className="flex-row justify-center mb-4 mt-5">
         {user.userRoles.map((ur) => ur.name).includes("Mentee") && (
           <TouchableOpacity
