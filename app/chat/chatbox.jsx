@@ -63,11 +63,11 @@ const ChatBox = () => {
           </View>
         ),
         headerShown: true,
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
-          </TouchableOpacity>
-        ),
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons name="arrow-back" size={24} color="#6adbd7" />
+        //   </TouchableOpacity>
+        // ),
       });
     }
   }, [navigation, chatPartnerId, chatPartnerName, chatPartnerPhoto]);

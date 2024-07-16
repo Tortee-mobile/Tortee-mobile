@@ -10,7 +10,6 @@ import {
   TextInput,
   RefreshControl,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import useApi from "../../hooks/useApi";
 import { getAllChatBox } from "../../api/messageService";
@@ -104,7 +103,7 @@ const Message = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-100">
-      <View className="p-6">
+      <View className="p-6 flex-1">
         <Text className="text-2xl font-bold text-gray-900 mb-4">Messages</Text>
         <TextInput
           className="h-12 border border-gray-300 rounded-lg px-4 mb-6 bg-white shadow-sm"
@@ -116,7 +115,8 @@ const Message = () => {
           data={chatboxes}
           renderItem={renderChatbox}
           keyExtractor={(item) => item.chatPartnerId.toString()}
-          className="bg-transparent"
+          className="bg-transparent flex-1"
+          showsVerticalScrollIndicator={false} // Hide the scrollbar
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -125,20 +125,5 @@ const Message = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: "#274a79",
-    padding: 15,
-    borderBottomWidth: 5,
-    borderBottomColor: "#6adbd7",
-    alignItems: "center",
-  },
-  headerText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "700",
-  },
-});
 
 export default Message;

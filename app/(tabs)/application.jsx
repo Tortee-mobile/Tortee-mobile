@@ -8,7 +8,6 @@ import {
   Alert,
   RefreshControl,
 } from "react-native";
-import { useAuth } from "../../context/AuthContext";
 import {
   getMenteeApplicationsSent,
   getMenteeApplicationsReceived,
@@ -18,6 +17,7 @@ import { images } from "../../constants";
 import { router } from "expo-router";
 import dayjs from "dayjs";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../../context/AuthContext";
 
 const Application = () => {
   const { user } = useAuth();

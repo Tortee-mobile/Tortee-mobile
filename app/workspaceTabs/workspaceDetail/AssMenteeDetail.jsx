@@ -8,13 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import * as DocumentPicker from "expo-document-picker";
 import useApi from "../../../hooks/useApi";
-import {
-  getAssDetailMentee,
-  getListSubmitInAss,
-  submitAssignment,
-} from "../../../api/workspaceService";
+import { getAssDetailMentee } from "../../../api/workspaceService";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
