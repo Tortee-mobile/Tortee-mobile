@@ -22,10 +22,12 @@ export default function TabInfo() {
         <Ionicons name="school-outline" color="white" size={30} />
         <Text className="text-neutral-200 text-base mt-1">My Mentors</Text>
       </View>
-      <View className="w-1/3 flex flex-col items-center justify-center">
+
+      <TouchableOpacity  onPress={() => router.navigate('(tabs)/application')} className="w-1/3 flex flex-col items-center justify-center">
         <Ionicons name="receipt-outline" color="white" size={30} />
         <Text className="text-neutral-200 text-base mt-1">Bookings</Text>
-      </View>
+      </TouchableOpacity>
+
     </View>
   );
 }

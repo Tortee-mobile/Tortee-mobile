@@ -35,12 +35,13 @@ const Booking = () => {
             onPress={() => navigation.goBack()}
             style={{ padding: 10 }}
           >
-            <Ionicons name="arrow-back" size={24} color="#6adbd7" />{" "}
+            <Ionicons name="arrow-back" size={24} color="#6adbd7" />
           </TouchableOpacity>
         ),
       });
     }
   }, [navigation, menteePlanId]);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {

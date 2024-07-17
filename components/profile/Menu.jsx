@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
 
@@ -7,7 +8,7 @@ export default function Menu() {
   const { logout } = useAuth();
   return (
     <View>
-      <View className="flex flex-row items-center justify-between mx-10 mb-5">
+      <TouchableOpacity onPress={()=> router.navigate('profile/AccountSetting')} className="flex flex-row items-center justify-between mx-10 mb-5">
         <View className="flex flex-row items-center gap-4 ">
           <Ionicons
             name="settings-outline"
@@ -24,7 +25,7 @@ export default function Menu() {
           <Text className="text-lg">Account Setting</Text>
         </View>
         <Ionicons name="chevron-forward-outline" size={25} />
-      </View>
+      </TouchableOpacity>
 
       <View className="flex flex-row items-center justify-between mx-10 mb-5">
         <View className="flex flex-row items-center gap-4 ">

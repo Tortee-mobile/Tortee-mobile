@@ -2,7 +2,7 @@ import { showErrorMessage, showSuccessMessage } from "../components/Toast";
 import { apiConfig } from "../config/apiConfig";
 import apiClient from "./apiClient";
 
-export const getAllMentorList = async (pageIndex = 1, pageSize = 10) => {
+export const getAllMentorList = async (pageIndex = 1, pageSize = 15) => {
   try {
     const response = await apiClient.get(apiConfig.endpoints.listMentor, {
       params: {
@@ -31,10 +31,23 @@ export const getMentorId = async (mentorId) => {
   }
 };
 
+export const getMenteeId = async (menteeId) => {
+  try {
+    const response = await apiClient.get(
+      `${apiConfig.endpoints.mentorId}/${menteeId}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving this mentor:", error);
+    throw error;
+  }
+};
+
 export const getMentorshipPlan = async (
   mentorId,
   pageIndex = 1,
-  pageSize = 10
+  pageSize = 100
 ) => {
   try {
     const response = await apiClient.get(
@@ -116,4 +129,20 @@ export const applyForMentee = async (
 export const createPaymentUrl = async (data) => {
   const response = await apiClient.post(apiConfig.endpoints.payment, data);
   return response.data;
+};
+
+export const getAllMyMentorList = async (pageIndex = 1, pageSize = 10) => {
+  try {
+    const response = await apiClient.get(apiConfig.endpoints.myMentors, {
+      params: {
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving my mentor list:", error);
+    throw error;
+  }
 };

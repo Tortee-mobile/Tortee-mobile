@@ -1,9 +1,13 @@
 import { View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, Tabs } from "expo-router";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useAuth } from "../../context/AuthContext";
 import FlashMessage from "react-native-flash-message";
+import { getTotalUnreadNotifications } from "../../api/notificationService";
+import { Text } from "react-native";
+import { apiConfig } from "../../config/apiConfig";
+import * as SignalR from "@microsoft/signalr";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -19,6 +23,43 @@ const TabIcon = ({ icon, color, name, focused }) => {
 
 const TabsLayout = () => {
   const { loading, user } = useAuth();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const connection = new SignalR.HubConnectionBuilder()
+      .withUrl(apiConfig.hubs.notificationHub)
+      .configureLogging(SignalR.LogLevel.Information)
+      .build();
+
+    connection
+      .start()
+      .then(() => console.log("SignalR Connected"))
+      .catch((err) =>
+        console.log("Error while establishing SignalR connection:", err)
+      );
+
+    connection.on("ReceiveNotification", (notification) => {
+      console.log("Notification received:", notification);
+      setUnreadCount((prevCount) => prevCount + 1);
+    });
+
+    return () => {
+      connection.stop();
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchUnreadNotifications = async () => {
+      try {
+        const response = await getTotalUnreadNotifications();
+        setUnreadCount(response.data);
+      } catch (error) {
+        console.error("Error fetching unread notifications count:", error);
+      }
+    };
+
+    fetchUnreadNotifications();
+  }, []);
 
   if (!loading && !user) return <Redirect href="/sign-in" />;
   return (
@@ -83,10 +124,25 @@ const TabsLayout = () => {
             title: "Notifications",
             headerShown: false,
             tabBarIcon: ({ focused }) => (
-              <TabIcon icon="notifications-outline" focused={focused} />
+              <View className="items-center justify-center gap-1 relative">
+                <Icon
+                  name="notifications-outline"
+                  size={24}
+                  style={{ color: focused ? "#6adbd7" : "gray" }}
+                />
+
+                {unreadCount > 0 && (
+                  <View className="absolute bottom-3 left-4 bg-red-600 rounded-full h-5 w-5 flex items-center justify-center">
+                    <Text className="text-xs text-white font-bold">
+                      {unreadCount}
+                    </Text>
+                  </View>
+                )}
+              </View>
             ),
           }}
         />
+
         <Tabs.Screen
           name="profile"
           options={{

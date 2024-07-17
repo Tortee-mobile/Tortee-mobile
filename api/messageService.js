@@ -36,3 +36,16 @@ export const readMessages = async (chatPartnerId) => {
     throw error;
   }
 };
+
+export const searchChat = async (search) => {
+  try {
+    const response = await apiClient.get(apiConfig.endpoints.searchChat, {
+      params: { search }, // Thêm tham số vào yêu cầu
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving chat boxes:", error);
+    throw error;
+  }
+};
