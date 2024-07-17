@@ -62,6 +62,7 @@ const Notification = () => {
               createdDate={item.createdDate}
             />
           )}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

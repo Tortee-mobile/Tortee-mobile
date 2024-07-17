@@ -1,15 +1,15 @@
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import { getAllMentorList } from "../../api/mentorService";
-import { Card, Title, Paragraph, Avatar } from "react-native-paper";
-import { Image } from "react-native";
+import { Card, Title, Paragraph, Avatar, Searchbar } from "react-native-paper";
 import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
@@ -19,11 +19,10 @@ import { Loader } from "../../components";
 const Home = () => {
   const navigation = useNavigation();
   const [mentors, setMentors] = useState([]);
-  const [visible, setVisible] = useState(6); // Số sản phẩm hiển thị ban đầu
+  const [visible, setVisible] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { user } = useAuth();
-
   const { data, loading, refetch } = useApi(getAllMentorList);
 
   useEffect(() => {
@@ -32,13 +31,26 @@ const Home = () => {
     }
   }, [data]);
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onChangeSearch = useCallback((query) => {
+    setSearchQuery(query);
+  }, []);
+
+  const filteredMentors = useMemo(() => {
+    return mentors.filter((mentor) => {
+      const fullName = mentor.fullName ? mentor.fullName.toLowerCase() : "";
+      const jobTitle = mentor.jobTitle ? mentor.jobTitle.toLowerCase() : "";
+      return (
+        fullName.includes(searchQuery.toLowerCase()) ||
+        jobTitle.includes(searchQuery.toLowerCase())
+      );
+    });
+  }, [mentors, searchQuery]);
 
   if (loading) return <Loader isLoading={loading} />;
 
   const handleLoadMore = () => {
     if (mentors.length > visible) {
-      setVisible((prevVisible) => prevVisible + 6); // Tăng số lượng sản phẩm hiển thị khi nhấn nút "Xem thêm"
+      setVisible((prevVisible) => prevVisible + 6);
     }
   };
 
@@ -62,6 +74,7 @@ const Home = () => {
           >
             {item.fullName}
           </Title>
+          <Paragraph style={styles.mentorCompany}>{item.jobTitle}</Paragraph>
           <Paragraph style={styles.mentorCompany}>{item.company}</Paragraph>
         </Card.Content>
         <TouchableOpacity
@@ -124,13 +137,18 @@ const Home = () => {
           List Tortee mentor:
         </Text>
       </View>
+      <Searchbar
+        placeholder="Search by full name or job title"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        style={styles.searchbar}
+      />
     </View>
   );
 
   const renderFooter = () => {
-    // Check if there are more products to show
-    if (visible >= mentors.length) {
-      return null; // Don't show the "Load More" button if no more products
+    if (visible >= filteredMentors.length) {
+      return null;
     }
 
     return (
@@ -148,7 +166,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={mentors.slice(0, visible)}
+        data={filteredMentors.slice(0, visible)}
         renderItem={renderMentor}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         numColumns={2}
@@ -257,6 +275,10 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 14,
     fontWeight: "600",
+  },
+  searchbar: {
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
 });
 

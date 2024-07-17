@@ -16,9 +16,9 @@ import { images } from "../../constants";
 
 const InfoRow = ({ icon, label, value }) => (
   <View className="flex flex-row justify-between mb-4">
-    <View className="flex flex-row items-center gap-2">
+    <View className="flex flex-row items-start gap-2">
       <Ionicons name={icon} size={25} color="#274a79" />
-      <Text className="text-primary font-semibold text-base">{label}</Text>
+      <Text className="text-primary font-semibold text-base text-justify ml-2">{label}</Text>
     </View>
     <Text className="text-base">{value}</Text>
   </View>

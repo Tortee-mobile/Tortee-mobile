@@ -166,8 +166,8 @@ const ApplicationDetail = () => {
               <Text>{application.menteePlan.durationOfMeeting} mins each</Text>
             </Text>
           </View>
-          {application.status === "ACCEPTED" &&
-          userId === application.menteePlan.mentorId ? (
+          {application?.status === "ACCEPTED" &&
+          userId === application?.menteePlan.mentorId ? (
             <View>
               <TouchableOpacity
                 onPress={handlePayment}

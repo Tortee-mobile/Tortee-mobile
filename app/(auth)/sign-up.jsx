@@ -33,7 +33,7 @@ const SignUp = () => {
         form.email,
         form.password
       );
-      router.replace("email-cofirmation");
+      router.replace("email/email-confirmation");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
