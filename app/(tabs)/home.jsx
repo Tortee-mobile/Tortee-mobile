@@ -4,17 +4,19 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import useApi from "../../hooks/useApi";
 import { getAllMentorList } from "../../api/mentorService";
-import { Card, Title, Paragraph, Avatar } from "react-native-paper";
+import { Card, Title, Paragraph, Avatar, Searchbar } from "react-native-paper";
 import { Image } from "react-native";
 import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import { images } from "../../constants";
 import { Loader } from "../../components";
+import cards from "../../assets/images/cards.png"
 
 const Home = () => {
   const navigation = useNavigation();
@@ -23,8 +25,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { user } = useAuth();
-
-  const { data, loading, refetch } = useApi(getAllMentorList);
+  const { data, loading } = useApi(getAllMentorList);
 
   useEffect(() => {
     if (data && data.data) {
@@ -34,10 +35,18 @@ const Home = () => {
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
+  const filteredMentors = useMemo(() => {
+    if (!mentors) return [];
+    return mentors.filter(
+      (mentor) =>        
+        (mentor.jobTitle && mentor.jobTitle.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [mentors, searchQuery]);
+
   if (loading) return <Loader isLoading={loading} />;
 
   const handleLoadMore = () => {
-    if (mentors.length > visible) {
+    if (filteredMentors.length > visible) {
       setVisible((prevVisible) => prevVisible + 6); // Tăng số lượng sản phẩm hiển thị khi nhấn nút "Xem thêm"
     }
   };
@@ -62,6 +71,7 @@ const Home = () => {
           >
             {item.fullName}
           </Title>
+          <Paragraph style={styles.jobTitle}>{item.jobTitle}</Paragraph>
           <Paragraph style={styles.mentorCompany}>{item.company}</Paragraph>
         </Card.Content>
         <TouchableOpacity
@@ -89,19 +99,27 @@ const Home = () => {
       <View className="mt-6 mx-4">
         <View className="flex-row justify-center w-full">
           <View style={styles.welcomeTextContainer}>
-            <Text className="text-center text-xl font-bold text-[#274a79] mb-4">
+            <View className='flex flex-col items-center mb-4'>
+            <Text className="text-center text-xl font-bold text-[#274a79] mb-2">
               Hi, {user?.fullName}
             </Text>
-            <Avatar.Image
+            {/* <Avatar.Image
               size={100}
               source={
                 user?.profilePic ? { uri: user.profilePic } : images.avatar
               }
               className="mx-auto mb-3"
-            />
-            <Text style={styles.welcomeText} className="mb-1">
+            /> */}
+            <Text className="mb-1 text-base italic">
               Welcome to Tỏ Tê!
             </Text>
+            </View>
+            
+            <Image
+              source={cards}
+              style={styles.cardsImage}
+              className="w-[380px] h-[120px]"
+            />
             <Text style={styles.exploreText} className="mb-3">
               Feel free to explore the app.
             </Text>
@@ -120,6 +138,13 @@ const Home = () => {
             </Text>
           </View>
         </View>
+        <View className="mx-3 mt-10 mb-2 rounded-xl w-[350px] bg-white">
+          <Searchbar
+            placeholder="Tìm kiếm..."
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+          />
+        </View>
         <Text style={styles.listTitle} className="uppercase my-4">
           List Tortee mentor:
         </Text>
@@ -129,7 +154,7 @@ const Home = () => {
 
   const renderFooter = () => {
     // Check if there are more products to show
-    if (visible >= mentors.length) {
+    if (visible >= filteredMentors.length) {
       return null; // Don't show the "Load More" button if no more products
     }
 
@@ -148,7 +173,7 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={mentors.slice(0, visible)}
+        data={filteredMentors.slice(0, visible)}
         renderItem={renderMentor}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         numColumns={2}
@@ -217,6 +242,13 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     backgroundColor: "#6adbd7",
   },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#6adbd7",
+    borderRadius: 10,
+    padding: 8,
+    marginVertical: 10,
+  },
   mentorListContainer: {
     flex: 1,
   },
@@ -253,6 +285,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#274a79",
     textAlign: "center",
+  },
+  jobTitle: {
+    fontSize: 14,
+    color: "#274a79",
+    textAlign: "center",
+    fontStyle:"italic"
   },
   buttonText: {
     fontSize: 14,

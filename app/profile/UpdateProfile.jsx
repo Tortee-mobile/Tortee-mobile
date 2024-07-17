@@ -138,7 +138,7 @@ export default function UpdateProfile() {
           {profile.fullName}
         </Text>
         {profile.userRoles?.map((role) => (
-          <View key={role.id} className="flex flex-row items-center tracking-wide mt-3 bg-[#B3FFAC] px-2 py-1 rounded-lg shadow-md">
+          <View key={role.name} className="flex flex-row items-center tracking-wide mt-3 bg-[#B3FFAC] px-2 py-1 rounded-lg shadow-md">
             <Ionicons name="bonfire-outline" size={20} color="#2D6B22" />
             <Text className=" text-[#2D6B22] font-semibold tracking-wider ml-1">
               {role.name}
