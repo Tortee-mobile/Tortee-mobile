@@ -33,40 +33,37 @@ const Application = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [expandedIds, setExpandedIds] = useState(new Set());
 
+  const fetchApplications = async () => {
+    setLoading(true);
+    try {
+      if (user?.userRoles?.map((ur) => ur.name).includes("Mentee")) {
+        const sentApps = await getMenteeApplicationsSent();
+        setSentApplications(sentApps.data.data);
+      }
+      if (user?.userRoles?.map((ur) => ur.name).includes("Mentor")) {
+        const receivedApps = await getMenteeApplicationsReceived();
+        setReceivedApplications(receivedApps.data.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        Alert.alert("Error", "You do not have the required permissions.");
+      } else {
+        Alert.alert("Error", "An error occurred while fetching applications.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, [user?.userRoles]);
+
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchApplications();
     setRefreshing(false);
   };
-
-  useEffect(() => {
-    const fetchApplications = async () => {
-      setLoading(true);
-      try {
-        if (user?.userRoles?.map((ur) => ur.name).includes("Mentee")) {
-          const sentApps = await getMenteeApplicationsSent();
-          setSentApplications(sentApps.data.data);
-        }
-        if (user?.userRoles?.map((ur) => ur.name).includes("Mentor")) {
-          const receivedApps = await getMenteeApplicationsReceived();
-          setReceivedApplications(receivedApps.data.data);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 403) {
-          Alert.alert("Error", "You do not have the required permissions.");
-        } else {
-          Alert.alert(
-            "Error",
-            "An error occurred while fetching applications."
-          );
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchApplications();
-  }, [user?.userRoles]);
 
   const toggleExpand = (applicationId) => {
     setExpandedIds((prev) => {
@@ -93,6 +90,8 @@ const Application = () => {
 
   const applications =
     filter === "sent" ? sentApplications : receivedApplications;
+
+  const isMentor = user?.userRoles?.map((ur) => ur.name).includes("Mentor");
 
   return (
     <SafeAreaView className="flex-1 bg-secondary/20 p-4 pt-0 pb-0">
@@ -147,6 +146,7 @@ const Application = () => {
         expandedIds={expandedIds}
         toggleExpand={toggleExpand}
         filter={filter}
+        isMentor={isMentor}
       />
     </SafeAreaView>
   );
@@ -161,6 +161,7 @@ const ApplicationList = ({
   expandedIds,
   toggleExpand,
   filter,
+  isMentor,
 }) => {
   const [visible, setVisible] = useState(3); // Initial number of items to show
 
@@ -189,12 +190,12 @@ const ApplicationList = ({
 
   const renderApplicationItem = ({ item }) => {
     // Your existing renderApplicationItem logic here
-    const avatar = item.user?.profilePic || item.mentor.profilePic;
-    const name = item.user?.fullName || item.mentor.fullName;
-    const email = item.user?.email || item.mentor.email;
-    const bio = item.user?.bio || item.mentor.bio;
-    const company = item.user?.company || item.mentor.company;
-    const jobTitle = item.user?.jobTitle || item.mentor.jobTitle;
+    const avatar = isMentor ? item.user?.profilePic : item.mentor.profilePic;
+    const name = isMentor ? item.user?.fullName : item.mentor.fullName;
+    const email = isMentor ? item.user?.email : item.mentor.email;
+    const bio = isMentor ? item.user?.bio : item.mentor.bio;
+    const company = isMentor ? item.user?.company : item.mentor.company;
+    const jobTitle = isMentor ? item.user?.jobTitle : item.mentor.jobTitle;
     const planDescription = item.menteePlan.descriptionOfPlan;
     const price = item.price;
     const planDetails = `Calls per Month: ${item.menteePlan.callPerMonth}
@@ -269,7 +270,11 @@ Remaining Slots: ${item.menteePlan.remainSlot}`;
       keyExtractor={(item) => item.id.toString()}
       className="flex-1"
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          isMentor={isMentor}
+        />
       }
       ListFooterComponent={renderFooter}
     />
