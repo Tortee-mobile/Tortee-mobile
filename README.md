@@ -9,9 +9,10 @@ Reviewed: No
 The TorTee Mentorship Platform is a comprehensive solution designed to connect mentors and mentees, facilitating a seamless booking process, secure payments, and an interactive workspace for both parties.
 
 **Nhóm 2: Member**
-Châu Thị Ngọc Trâm - SE171174 - **Mobile**
-Vũ Thị Bích Phương - SE160422 - **Mobile**
-Lê Thị Yến Nhi - SE173003 - **Backend + Mobile**
+
+- Châu Thị Ngọc Trâm - **Mobile**
+- Vũ Thị Bích Phương - **Mobile**
+- Lê Thị Yến Nhi - **Backend + Mobile**
 
 **GitHub:**
 Back-end: [https://github.com/Tortee-mobile/TorTee-server](https://github.com/Tortee-mobile/TorTee-server)
@@ -43,7 +44,7 @@ ASP.NET API
 
 **Vũ Thị Bích Phương:**
 
-- Browse mentee:  View my Mentee Detail
+- Browse mentee: View my Mentee Detail
 - Browse mentor: Search mentor, View mentor list and detail mentor (mentor plan, mentor review list)
 - Booking mentor using VnPay for Payment
 - Search chat
@@ -51,8 +52,8 @@ ASP.NET API
 **Vũ Thị Bích Phương + Châu Thị Ngọc Trâm:**
 
 - Workspace between mentor and mentee:
-    - Mentor role: My mentee, Assignment Sent, Assignment Detail, Download Assignment, Grade Submission
-    - Mentee role: My mentor, Assignment Received, Assignment Detail, My submission, Send feedback
+  - Mentor role: My mentee, Assignment Sent, Assignment Detail, Download Assignment, Grade Submission
+  - Mentee role: My mentor, Assignment Received, Assignment Detail, My submission, Send feedback
 
 ## III. UI Screen:
 
