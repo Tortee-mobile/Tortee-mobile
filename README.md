@@ -13,8 +13,9 @@ The TorTee Mentorship Platform is a comprehensive solution designed to connect m
 - Lê Thị Yến Nhi - **Backend + Mobile**
 
 **GitHub:**
-Back-end: [https://github.com/Tortee-mobile/TorTee-server](https://github.com/Tortee-mobile/TorTee-server)
-Mobile: [https://github.com/Tortee-mobile/Tortee-mobile](https://github.com/Tortee-mobile/Tortee-mobile)
+
+- Back-end: [https://github.com/Tortee-mobile/TorTee-server](https://github.com/Tortee-mobile/TorTee-server)
+- Mobile: [https://github.com/Tortee-mobile/Tortee-mobile](https://github.com/Tortee-mobile/Tortee-mobile)
 
 ## **II. Task:**
 
