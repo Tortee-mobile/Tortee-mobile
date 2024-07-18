@@ -61,27 +61,27 @@ ASP.NET API
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled.png)
 
-1. Login
+2. Login
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%201.png)
 
-1. Register
+3. Register
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%202.png)
 
-1. Email Confirmation
+4. Email Confirmation
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%203.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%204.png)
 
-1. Home:
+5. Home:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%205.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%206.png)
 
-1. Mentor Detail:
+6. Mentor Detail:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%207.png)
 
@@ -89,11 +89,11 @@ ASP.NET API
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%209.png)
 
-1. Booking Screen:
+7. Booking Screen:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2010.png)
 
-1. Workspace Mentor: (2 tabs)
+8. Workspace Mentor: (2 tabs)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2011.png)
 
@@ -107,7 +107,7 @@ ASP.NET API
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2016.png)
 
-1. Workspace Mentee (4 tabs)
+9. Workspace Mentee (4 tabs)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2017.png)
 
@@ -123,46 +123,38 @@ ASP.NET API
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2023.png)
 
-1. Application Mentor:
+10. Application Mentor:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2024.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2025.png)
 
-1. Application Mentee:
+11. Application Mentee:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2026.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2027.png)
 
+12. Mentee Profile:
+
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2028.png)
 
-1. Message:
-
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2029.png)
+
+13. Mentee Skill:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2030.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2031.png)
 
+14. Real-time Notification:
+
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2032.png)
 
-1. Notification
+15. Real-time Mess (2 tabs):
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2033.png)
-
-1. Profile management:
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2034.png)
 
 ![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2035.png)
-
-![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2036.png)
-
-![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2037.png)
-
-![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2038.png)
-
-![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2039.png)
-
-![Untitled](Report%20PRM392%20-%20Nho%CC%81m%202%20-%20NJS1710%20baef5db18f304ad99b4a8dd83b028b36/Untitled%2040.png)
