@@ -166,23 +166,23 @@ const ApplicationDetail = () => {
               <Text>{application.menteePlan.durationOfMeeting} mins each</Text>
             </Text>
           </View>
-          {application?.status === "ACCEPTED" &&
-          userId === application?.menteePlan.mentorId ? (
+          {/* {application?.status === "ACCEPTED" &&
+          userId === application?.menteePlan.mentorId ? ( */}
             <View>
               <TouchableOpacity
                 onPress={handlePayment}
                 disabled={paymentLoading}
               >
-                {paymentLoading ? (
+                {/* {paymentLoading ? (
                   <ActivityIndicator color="#274a79" />
-                ) : (
+                ) : ( */}
                   <Text className=" bg-[#6adbd7] text-[#274a79] p-2 mt-5 rounded-md  text-center font-bold uppercase text-lg">
                     Payment Now
                   </Text>
-                )}
+                {/* )} */}
               </TouchableOpacity>
             </View>
-          ) : null}
+          {/* ) : null} */}
           {application.menteeApplicationAnswers &&
             application.menteeApplicationAnswers.length > 0 && (
               <View className="mt-4">
