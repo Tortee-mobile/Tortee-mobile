@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import { images } from "../../constants";
 import { Loader } from "../../components";
-
+import cards from "../../assets/images/cards.png"
 const Home = () => {
   const navigation = useNavigation();
   const [mentors, setMentors] = useState([]);
@@ -102,22 +102,31 @@ const Home = () => {
       <View className="mt-6 mx-4">
         <View className="flex-row justify-center w-full">
           <View style={styles.welcomeTextContainer}>
-            <Text className="text-center text-xl font-bold text-[#274a79] mb-4">
+            <View className="flex flex-col items-center">
+            <Text className="text-center text-xl font-bold text-[#274a79] mb-2">
               Hi, {user?.fullName}
             </Text>
-            <Avatar.Image
+            <Text className="mb-3 italic text-base">
+              Welcome to Tỏ Tê!
+            </Text>
+            
+            </View>
+            <Image
+              source={cards}
+              style={styles.cardsImage}
+              className="w-[380px] h-[120px]"
+            />
+            {/* <Avatar.Image
               size={100}
               source={
                 user?.profilePic ? { uri: user.profilePic } : images.avatar
               }
               className="mx-auto mb-3"
-            />
-            <Text style={styles.welcomeText} className="mb-1">
-              Welcome to Tỏ Tê!
-            </Text>
-            <Text style={styles.exploreText} className="mb-3">
+            /> */}
+           
+            {/* <Text style={styles.exploreText} className="mb-3">
               Feel free to explore the app.
-            </Text>
+            </Text> */}
             <Text style={styles.firstTimeText}>
               If this is your first time visiting, please go to
             </Text>
@@ -133,7 +142,7 @@ const Home = () => {
             </Text>
           </View>
         </View>
-        <Text style={styles.listTitle} className="uppercase my-4">
+        <Text style={styles.listTitle} className="uppercase mb-4">
           List Tortee mentor:
         </Text>
       </View>
@@ -228,12 +237,14 @@ const styles = StyleSheet.create({
   },
   profileSettingText: {
     textAlign: "center",
-    color: "#274a79",
+    color: "white",
     borderRadius: 8,
-    padding: 8,
-    fontSize: 14,
+    paddingHorizontal: 8,
+    paddingVertical:6,
+    fontSize: 12,
     fontWeight: "600",
-    backgroundColor: "#6adbd7",
+    backgroundColor: "#274a79",
+    letterSpacing:1
   },
   mentorListContainer: {
     flex: 1,
