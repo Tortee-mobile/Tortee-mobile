@@ -31,11 +31,11 @@ ASP.NET API
 **Lê Thị Yến Nhi:**
 
 - Message: real-time mess using signalR, unread total message
-- Login, Logout, Register,
-- Welcome screen
-- Email confirmation
 - Real-time notification: Unread total notifications, read notifications
 - Mentee Application Management: Mentee Application List, Mentee Application Detail, Accept/Denied Application
+- Auth feature
+- Welcome screen
+- Email confirmation
 
 **Châu Thị Ngọc Trâm:**
 
